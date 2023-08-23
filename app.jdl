@@ -1,6 +1,7 @@
 application {
   config {
-    baseName annualdeclaration
+      baseName annual-dec-jh
+      packageName ly.qubit
   }
   entities * // This will include all entities in the application
 }
