@@ -1,0 +1,78 @@
+application {
+  config {
+    baseName annualdeclaration
+  }
+  entities * // This will include all entities in the application
+}
+
+entity SocialSecurityPensioner {
+  nationalNumber String required minlength(12) maxlength(12) unique,
+  pensionNumber String required,
+  dateOfBirth LocalDate required,
+  address String required
+}
+
+entity FamilyMember {
+  nationalNumber String required minlength(12) maxlength(12) unique,
+  name String required,
+  dateOfBirth LocalDate required,
+  gender String required
+}
+
+entity Beneficiary {
+  entitlementType EntitlementType required,
+  entitlementDetails String
+}
+
+entity AnnualDeclaration {
+  submissionDate LocalDate required,
+  status DeclarationStatus required
+}
+
+entity Document {
+  fileName String required,
+  filePath String required,
+  submission_date Instant required,
+  documentdType  DocumentdType
+}
+
+
+enum DeclarationStatus {
+  SUBMITTED("Submitted"), APPROVED("Approved"), REJECTED("Rejected")
+}
+enum EntitlementType {
+  PENSION("pension"),
+  MEDICAL("medical"),
+  EDUCATION("education"),
+  HOUSING("housing"),
+  OTHER("other")
+}
+
+
+enum DocumentdType {
+   IDENTITY("Identity Document"),
+    INCOME("Income Certificate"),
+    FAMILY("Family Information"),
+    MEDICAL("Medical Records"),
+    RESIDENCE("Residence Proof"),
+    OTHER("Other Document")
+}
+
+relationship ManyToOne {
+  SocialSecurityPensioner{familyMembers(name)}  to FamilyMember
+  AnnualDeclaration{pensioner (nationalNumber)} to SocialSecurityPensioner {AnnualDeclaration(submissionDate)}
+}
+
+relationship OneToOne {
+  FamilyMember{beneficiary} to @Id Beneficiary
+}
+
+relationship OneToMany {
+  AnnualDeclaration{documents(documentdType)} to Document
+}
+
+paginate SocialSecurityPensioner, FamilyMember, Beneficiary, AnnualDeclaration, Document with pagination
+dto * with mapstruct
+
+service * with serviceImpl
+
