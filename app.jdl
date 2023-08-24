@@ -55,14 +55,15 @@ enum DocumentdType {
 relationship ManyToOne {
     FamilyMember {pensioner (nationalNumber)} to SocialSecurityPensioner{familyMembers(name)}
   AnnualDeclaration {pensioner (nationalNumber)} to SocialSecurityPensioner {annualDeclaration(submissionDate)}
+    Beneficiary {familyMembers(name)} to  FamilyMember
+    Beneficiary {annualDeclaration(submissionDate)} to AnnualDeclaration
+
+
 }
 relationship ManyToMany{
     AnnualDeclaration {familyMembers (nationalNumber)} to FamilyMember {annualDeclaration(submissionDate)}
 }
 
-relationship OneToOne {
-    Beneficiary {familyMembers(name)} to @Id FamilyMember
-}
 
 relationship OneToMany {
   AnnualDeclaration{documents(documentdType)} to Document {annualDeclaration(submissionDate)}
