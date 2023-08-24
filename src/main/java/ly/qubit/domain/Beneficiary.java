@@ -16,11 +16,13 @@ public class Beneficiary implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
+    //    @Id
+    //    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    //    @SequenceGenerator(name = "sequenceGenerator")
+    //    @Column(name = "id")
+    //    private Long id;
+    @EmbeddedId
+    private FamilyMemberAnnualDeclarationId id = new FamilyMemberAnnualDeclarationId();
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -31,25 +33,27 @@ public class Beneficiary implements Serializable {
     private String entitlementDetails;
 
     @ManyToOne
+    @MapsId("familyMemberId")
     @JsonIgnoreProperties(value = { "pensioner", "annualDeclarations" }, allowSetters = true)
     private FamilyMember familyMembers;
 
     @ManyToOne
+    @MapsId("annualDeclarationId")
     @JsonIgnoreProperties(value = { "documents", "pensioner", "familyMembers" }, allowSetters = true)
     private AnnualDeclaration annualDeclaration;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Long getId() {
+    public FamilyMemberAnnualDeclarationId getId() {
         return this.id;
     }
 
-    public Beneficiary id(Long id) {
+    public Beneficiary id(FamilyMemberAnnualDeclarationId id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(Long id) {
+    public void setId(FamilyMemberAnnualDeclarationId id) {
         this.id = id;
     }
 
