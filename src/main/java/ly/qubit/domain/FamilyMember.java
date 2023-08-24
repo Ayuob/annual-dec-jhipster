@@ -45,10 +45,6 @@ public class FamilyMember implements Serializable {
     @JsonIgnoreProperties(value = { "familyMembers", "annualDeclarations" }, allowSetters = true)
     private SocialSecurityPensioner pensioner;
 
-    @JsonIgnoreProperties(value = { "familyMembers" }, allowSetters = true)
-    @OneToOne(mappedBy = "familyMembers")
-    private Beneficiary beneficiary;
-
     @ManyToMany(mappedBy = "familyMembers")
     @JsonIgnoreProperties(value = { "documents", "pensioner", "familyMembers" }, allowSetters = true)
     private Set<AnnualDeclaration> annualDeclarations = new HashSet<>();
@@ -130,25 +126,6 @@ public class FamilyMember implements Serializable {
 
     public FamilyMember pensioner(SocialSecurityPensioner socialSecurityPensioner) {
         this.setPensioner(socialSecurityPensioner);
-        return this;
-    }
-
-    public Beneficiary getBeneficiary() {
-        return this.beneficiary;
-    }
-
-    public void setBeneficiary(Beneficiary beneficiary) {
-        if (this.beneficiary != null) {
-            this.beneficiary.setFamilyMembers(null);
-        }
-        if (beneficiary != null) {
-            beneficiary.setFamilyMembers(this);
-        }
-        this.beneficiary = beneficiary;
-    }
-
-    public FamilyMember beneficiary(Beneficiary beneficiary) {
-        this.setBeneficiary(beneficiary);
         return this;
     }
 

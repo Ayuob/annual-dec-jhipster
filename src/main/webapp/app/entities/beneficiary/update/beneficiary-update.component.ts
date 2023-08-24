@@ -9,6 +9,8 @@ import { IBeneficiary } from '../beneficiary.model';
 import { BeneficiaryService } from '../service/beneficiary.service';
 import { IFamilyMember } from 'app/entities/family-member/family-member.model';
 import { FamilyMemberService } from 'app/entities/family-member/service/family-member.service';
+import { IAnnualDeclaration } from 'app/entities/annual-declaration/annual-declaration.model';
+import { AnnualDeclarationService } from 'app/entities/annual-declaration/service/annual-declaration.service';
 import { EntitlementType } from 'app/entities/enumerations/entitlement-type.model';
 
 @Component({
@@ -20,7 +22,8 @@ export class BeneficiaryUpdateComponent implements OnInit {
   beneficiary: IBeneficiary | null = null;
   entitlementTypeValues = Object.keys(EntitlementType);
 
-  familyMembersCollection: IFamilyMember[] = [];
+  familyMembersSharedCollection: IFamilyMember[] = [];
+  annualDeclarationsSharedCollection: IAnnualDeclaration[] = [];
 
   editForm: BeneficiaryFormGroup = this.beneficiaryFormService.createBeneficiaryFormGroup();
 
@@ -28,11 +31,15 @@ export class BeneficiaryUpdateComponent implements OnInit {
     protected beneficiaryService: BeneficiaryService,
     protected beneficiaryFormService: BeneficiaryFormService,
     protected familyMemberService: FamilyMemberService,
+    protected annualDeclarationService: AnnualDeclarationService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareFamilyMember = (o1: IFamilyMember | null, o2: IFamilyMember | null): boolean =>
     this.familyMemberService.compareFamilyMember(o1, o2);
+
+  compareAnnualDeclaration = (o1: IAnnualDeclaration | null, o2: IAnnualDeclaration | null): boolean =>
+    this.annualDeclarationService.compareAnnualDeclaration(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ beneficiary }) => {
@@ -82,21 +89,38 @@ export class BeneficiaryUpdateComponent implements OnInit {
     this.beneficiary = beneficiary;
     this.beneficiaryFormService.resetForm(this.editForm, beneficiary);
 
-    this.familyMembersCollection = this.familyMemberService.addFamilyMemberToCollectionIfMissing<IFamilyMember>(
-      this.familyMembersCollection,
+    this.familyMembersSharedCollection = this.familyMemberService.addFamilyMemberToCollectionIfMissing<IFamilyMember>(
+      this.familyMembersSharedCollection,
       beneficiary.familyMembers
+    );
+    this.annualDeclarationsSharedCollection = this.annualDeclarationService.addAnnualDeclarationToCollectionIfMissing<IAnnualDeclaration>(
+      this.annualDeclarationsSharedCollection,
+      beneficiary.annualDeclaration
     );
   }
 
   protected loadRelationshipsOptions(): void {
     this.familyMemberService
-      .query({ filter: 'beneficiary-is-null' })
+      .query()
       .pipe(map((res: HttpResponse<IFamilyMember[]>) => res.body ?? []))
       .pipe(
         map((familyMembers: IFamilyMember[]) =>
           this.familyMemberService.addFamilyMemberToCollectionIfMissing<IFamilyMember>(familyMembers, this.beneficiary?.familyMembers)
         )
       )
-      .subscribe((familyMembers: IFamilyMember[]) => (this.familyMembersCollection = familyMembers));
+      .subscribe((familyMembers: IFamilyMember[]) => (this.familyMembersSharedCollection = familyMembers));
+
+    this.annualDeclarationService
+      .query()
+      .pipe(map((res: HttpResponse<IAnnualDeclaration[]>) => res.body ?? []))
+      .pipe(
+        map((annualDeclarations: IAnnualDeclaration[]) =>
+          this.annualDeclarationService.addAnnualDeclarationToCollectionIfMissing<IAnnualDeclaration>(
+            annualDeclarations,
+            this.beneficiary?.annualDeclaration
+          )
+        )
+      )
+      .subscribe((annualDeclarations: IAnnualDeclaration[]) => (this.annualDeclarationsSharedCollection = annualDeclarations));
   }
 }

@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import ly.qubit.IntegrationTest;
 import ly.qubit.domain.Beneficiary;
-import ly.qubit.domain.FamilyMember;
 import ly.qubit.domain.enumeration.EntitlementType;
 import ly.qubit.repository.BeneficiaryRepository;
 import ly.qubit.service.BeneficiaryService;
@@ -85,16 +84,6 @@ class BeneficiaryResourceIT {
         Beneficiary beneficiary = new Beneficiary()
             .entitlementType(DEFAULT_ENTITLEMENT_TYPE)
             .entitlementDetails(DEFAULT_ENTITLEMENT_DETAILS);
-        // Add required entity
-        FamilyMember familyMember;
-        if (TestUtil.findAll(em, FamilyMember.class).isEmpty()) {
-            familyMember = FamilyMemberResourceIT.createEntity(em);
-            em.persist(familyMember);
-            em.flush();
-        } else {
-            familyMember = TestUtil.findAll(em, FamilyMember.class).get(0);
-        }
-        beneficiary.setFamilyMembers(familyMember);
         return beneficiary;
     }
 
@@ -108,12 +97,6 @@ class BeneficiaryResourceIT {
         Beneficiary beneficiary = new Beneficiary()
             .entitlementType(UPDATED_ENTITLEMENT_TYPE)
             .entitlementDetails(UPDATED_ENTITLEMENT_DETAILS);
-        // Add required entity
-        FamilyMember familyMember;
-        familyMember = FamilyMemberResourceIT.createUpdatedEntity(em);
-        em.persist(familyMember);
-        em.flush();
-        beneficiary.setFamilyMembers(familyMember);
         return beneficiary;
     }
 
@@ -140,9 +123,6 @@ class BeneficiaryResourceIT {
         Beneficiary testBeneficiary = beneficiaryList.get(beneficiaryList.size() - 1);
         assertThat(testBeneficiary.getEntitlementType()).isEqualTo(DEFAULT_ENTITLEMENT_TYPE);
         assertThat(testBeneficiary.getEntitlementDetails()).isEqualTo(DEFAULT_ENTITLEMENT_DETAILS);
-
-        // Validate the id for MapsId, the ids must be same
-        assertThat(testBeneficiary.getId()).isEqualTo(beneficiaryDTO.getFamilyMembers().getId());
     }
 
     @Test
@@ -164,47 +144,6 @@ class BeneficiaryResourceIT {
         // Validate the Beneficiary in the database
         List<Beneficiary> beneficiaryList = beneficiaryRepository.findAll();
         assertThat(beneficiaryList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void updateBeneficiaryMapsIdAssociationWithNewId() throws Exception {
-        // Initialize the database
-        beneficiaryRepository.saveAndFlush(beneficiary);
-        int databaseSizeBeforeCreate = beneficiaryRepository.findAll().size();
-        // Add a new parent entity
-        FamilyMember familyMember = FamilyMemberResourceIT.createUpdatedEntity(em);
-        em.persist(familyMember);
-        em.flush();
-
-        // Load the beneficiary
-        Beneficiary updatedBeneficiary = beneficiaryRepository.findById(beneficiary.getId()).get();
-        assertThat(updatedBeneficiary).isNotNull();
-        // Disconnect from session so that the updates on updatedBeneficiary are not directly saved in db
-        em.detach(updatedBeneficiary);
-
-        // Update the FamilyMember with new association value
-        updatedBeneficiary.setFamilyMembers(familyMember);
-        BeneficiaryDTO updatedBeneficiaryDTO = beneficiaryMapper.toDto(updatedBeneficiary);
-        assertThat(updatedBeneficiaryDTO).isNotNull();
-
-        // Update the entity
-        restBeneficiaryMockMvc
-            .perform(
-                put(ENTITY_API_URL_ID, updatedBeneficiaryDTO.getId())
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedBeneficiaryDTO))
-            )
-            .andExpect(status().isOk());
-
-        // Validate the Beneficiary in the database
-        List<Beneficiary> beneficiaryList = beneficiaryRepository.findAll();
-        assertThat(beneficiaryList).hasSize(databaseSizeBeforeCreate);
-        Beneficiary testBeneficiary = beneficiaryList.get(beneficiaryList.size() - 1);
-        // Validate the id for MapsId, the ids must be same
-        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
-        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
-        // assertThat(testBeneficiary.getId()).isEqualTo(testBeneficiary.getFamilyMember().getId());
     }
 
     @Test

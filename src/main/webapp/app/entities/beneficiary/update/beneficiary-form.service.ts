@@ -21,6 +21,7 @@ type BeneficiaryFormGroupContent = {
   entitlementType: FormControl<IBeneficiary['entitlementType']>;
   entitlementDetails: FormControl<IBeneficiary['entitlementDetails']>;
   familyMembers: FormControl<IBeneficiary['familyMembers']>;
+  annualDeclaration: FormControl<IBeneficiary['annualDeclaration']>;
 };
 
 export type BeneficiaryFormGroup = FormGroup<BeneficiaryFormGroupContent>;
@@ -45,6 +46,7 @@ export class BeneficiaryFormService {
       }),
       entitlementDetails: new FormControl(beneficiaryRawValue.entitlementDetails),
       familyMembers: new FormControl(beneficiaryRawValue.familyMembers),
+      annualDeclaration: new FormControl(beneficiaryRawValue.annualDeclaration),
     });
   }
 

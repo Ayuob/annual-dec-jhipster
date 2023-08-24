@@ -18,35 +18,15 @@ describe('Beneficiary e2e test', () => {
   const beneficiarySample = { entitlementType: 'PENSION' };
 
   let beneficiary;
-  let familyMember;
 
   beforeEach(() => {
     cy.login(username, password);
   });
 
   beforeEach(() => {
-    // create an instance at the required relationship entity:
-    cy.authenticatedRequest({
-      method: 'POST',
-      url: '/api/family-members',
-      body: { nationalNumber: 'Intuitive Fr', name: 'red', dateOfBirth: '2023-08-23', gender: 'Plastic' },
-    }).then(({ body }) => {
-      familyMember = body;
-    });
-  });
-
-  beforeEach(() => {
     cy.intercept('GET', '/api/beneficiaries+(?*|)').as('entitiesRequest');
     cy.intercept('POST', '/api/beneficiaries').as('postEntityRequest');
     cy.intercept('DELETE', '/api/beneficiaries/*').as('deleteEntityRequest');
-  });
-
-  beforeEach(() => {
-    // Simulate relationships api for better performance and reproducibility.
-    cy.intercept('GET', '/api/family-members', {
-      statusCode: 200,
-      body: [familyMember],
-    });
   });
 
   afterEach(() => {
@@ -56,17 +36,6 @@ describe('Beneficiary e2e test', () => {
         url: `/api/beneficiaries/${beneficiary.id}`,
       }).then(() => {
         beneficiary = undefined;
-      });
-    }
-  });
-
-  afterEach(() => {
-    if (familyMember) {
-      cy.authenticatedRequest({
-        method: 'DELETE',
-        url: `/api/family-members/${familyMember.id}`,
-      }).then(() => {
-        familyMember = undefined;
       });
     }
   });
@@ -110,10 +79,7 @@ describe('Beneficiary e2e test', () => {
         cy.authenticatedRequest({
           method: 'POST',
           url: '/api/beneficiaries',
-          body: {
-            ...beneficiarySample,
-            familyMembers: familyMember,
-          },
+          body: beneficiarySample,
         }).then(({ body }) => {
           beneficiary = body;
 
@@ -197,8 +163,6 @@ describe('Beneficiary e2e test', () => {
       cy.get(`[data-cy="entitlementType"]`).select('OTHER');
 
       cy.get(`[data-cy="entitlementDetails"]`).type('dynamic USB Maine').should('have.value', 'dynamic USB Maine');
-
-      cy.get(`[data-cy="familyMembers"]`).select(1);
 
       cy.get(entityCreateSaveButtonSelector).click();
 

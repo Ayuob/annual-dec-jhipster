@@ -23,14 +23,16 @@
   "readOnly": false,
   "relationships": [
     {
-      "options": {
-        "id": true
-      },
       "otherEntityField": "name",
       "otherEntityName": "familyMember",
-      "ownerSide": true,
       "relationshipName": "familyMembers",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "submissionDate",
+      "otherEntityName": "annualDeclaration",
+      "relationshipName": "annualDeclaration",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "serviceImpl"

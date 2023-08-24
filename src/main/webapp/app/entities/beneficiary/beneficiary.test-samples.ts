@@ -3,23 +3,23 @@ import { EntitlementType } from 'app/entities/enumerations/entitlement-type.mode
 import { IBeneficiary, NewBeneficiary } from './beneficiary.model';
 
 export const sampleWithRequiredData: IBeneficiary = {
-  id: 79627,
-  entitlementType: EntitlementType['EDUCATION'],
+  id: 54185,
+  entitlementType: EntitlementType['MEDICAL'],
 };
 
 export const sampleWithPartialData: IBeneficiary = {
-  id: 54574,
-  entitlementType: EntitlementType['PENSION'],
+  id: 65260,
+  entitlementType: EntitlementType['OTHER'],
 };
 
 export const sampleWithFullData: IBeneficiary = {
-  id: 27706,
-  entitlementType: EntitlementType['HOUSING'],
-  entitlementDetails: 'Account Metal application',
+  id: 61006,
+  entitlementType: EntitlementType['MEDICAL'],
+  entitlementDetails: 'Metal application Mouse',
 };
 
 export const sampleWithNewData: NewBeneficiary = {
-  entitlementType: EntitlementType['PENSION'],
+  entitlementType: EntitlementType['MEDICAL'],
   id: null,
 };
 

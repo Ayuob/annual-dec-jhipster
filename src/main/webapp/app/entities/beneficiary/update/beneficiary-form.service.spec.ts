@@ -23,6 +23,7 @@ describe('Beneficiary Form Service', () => {
             entitlementType: expect.any(Object),
             entitlementDetails: expect.any(Object),
             familyMembers: expect.any(Object),
+            annualDeclaration: expect.any(Object),
           })
         );
       });
@@ -36,6 +37,7 @@ describe('Beneficiary Form Service', () => {
             entitlementType: expect.any(Object),
             entitlementDetails: expect.any(Object),
             familyMembers: expect.any(Object),
+            annualDeclaration: expect.any(Object),
           })
         );
       });

@@ -56,6 +56,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="annualDeclaration.submissionDate">
+            <div class="d-flex">
+              <span jhiTranslate="annualDecJhApp.beneficiary.annualDeclaration">Annual Declaration</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -69,6 +75,13 @@
           <td>
             <div *ngIf="beneficiary.familyMembers">
               <a [routerLink]="['/family-member', beneficiary.familyMembers.id, 'view']">{{ beneficiary.familyMembers.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="beneficiary.annualDeclaration">
+              <a [routerLink]="['/annual-declaration', beneficiary.annualDeclaration.id, 'view']">{{
+                beneficiary.annualDeclaration.submissionDate
+              }}</a>
             </div>
           </td>
           <td class="text-end">

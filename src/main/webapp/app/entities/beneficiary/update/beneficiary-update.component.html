@@ -74,8 +74,27 @@
             [compareWith]="compareFamilyMember"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="familyMemberOption" *ngFor="let familyMemberOption of familyMembersCollection">
+            <option [ngValue]="familyMemberOption" *ngFor="let familyMemberOption of familyMembersSharedCollection">
               {{ familyMemberOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.beneficiary.annualDeclaration" for="field_annualDeclaration"
+            >Annual Declaration</label
+          >
+          <select
+            class="form-control"
+            id="field_annualDeclaration"
+            data-cy="annualDeclaration"
+            name="annualDeclaration"
+            formControlName="annualDeclaration"
+            [compareWith]="compareAnnualDeclaration"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="annualDeclarationOption" *ngFor="let annualDeclarationOption of annualDeclarationsSharedCollection">
+              {{ annualDeclarationOption.submissionDate }}
             </option>
           </select>
         </div>

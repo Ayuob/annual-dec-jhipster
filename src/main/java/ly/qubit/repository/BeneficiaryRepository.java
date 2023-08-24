@@ -27,14 +27,18 @@ public interface BeneficiaryRepository extends JpaRepository<Beneficiary, Long> 
     }
 
     @Query(
-        value = "select distinct beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers",
+        value = "select distinct beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers left join fetch beneficiary.annualDeclaration",
         countQuery = "select count(distinct beneficiary) from Beneficiary beneficiary"
     )
     Page<Beneficiary> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers")
+    @Query(
+        "select distinct beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers left join fetch beneficiary.annualDeclaration"
+    )
     List<Beneficiary> findAllWithToOneRelationships();
 
-    @Query("select beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers where beneficiary.id =:id")
+    @Query(
+        "select beneficiary from Beneficiary beneficiary left join fetch beneficiary.familyMembers left join fetch beneficiary.annualDeclaration where beneficiary.id =:id"
+    )
     Optional<Beneficiary> findOneWithToOneRelationships(@Param("id") Long id);
 }

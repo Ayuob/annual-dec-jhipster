@@ -42,13 +42,6 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "beneficiary",
-      "otherEntityRelationshipName": "familyMembers",
-      "ownerSide": false,
-      "relationshipName": "beneficiary",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityField": "submissionDate",
       "otherEntityName": "annualDeclaration",
       "otherEntityRelationshipName": "familyMembers",

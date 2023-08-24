@@ -20,6 +20,8 @@ public class BeneficiaryDTO implements Serializable {
 
     private FamilyMemberDTO familyMembers;
 
+    private AnnualDeclarationDTO annualDeclaration;
+
     public Long getId() {
         return id;
     }
@@ -52,6 +54,14 @@ public class BeneficiaryDTO implements Serializable {
         this.familyMembers = familyMembers;
     }
 
+    public AnnualDeclarationDTO getAnnualDeclaration() {
+        return annualDeclaration;
+    }
+
+    public void setAnnualDeclaration(AnnualDeclarationDTO annualDeclaration) {
+        this.annualDeclaration = annualDeclaration;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -81,6 +91,7 @@ public class BeneficiaryDTO implements Serializable {
             ", entitlementType='" + getEntitlementType() + "'" +
             ", entitlementDetails='" + getEntitlementDetails() + "'" +
             ", familyMembers=" + getFamilyMembers() +
+            ", annualDeclaration=" + getAnnualDeclaration() +
             "}";
     }
 }

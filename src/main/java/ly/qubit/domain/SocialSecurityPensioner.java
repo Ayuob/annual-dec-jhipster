@@ -42,7 +42,7 @@ public class SocialSecurityPensioner implements Serializable {
     private String address;
 
     @OneToMany(mappedBy = "pensioner")
-    @JsonIgnoreProperties(value = { "pensioner", "beneficiary", "annualDeclarations" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "pensioner", "annualDeclarations" }, allowSetters = true)
     private Set<FamilyMember> familyMembers = new HashSet<>();
 
     @OneToMany(mappedBy = "pensioner")

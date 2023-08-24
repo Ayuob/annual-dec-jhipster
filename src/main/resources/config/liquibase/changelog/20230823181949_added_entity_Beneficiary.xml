@@ -20,6 +20,12 @@
             <column name="entitlement_details" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="family_members_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="annual_declaration_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

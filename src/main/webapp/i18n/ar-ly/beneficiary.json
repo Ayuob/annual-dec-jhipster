@@ -20,7 +20,8 @@
       "id": "ID",
       "entitlementType": "Entitlement Type",
       "entitlementDetails": "Entitlement Details",
-      "familyMembers": "Family Members"
+      "familyMembers": "Family Members",
+      "annualDeclaration": "Annual Declaration"
     }
   }
 }

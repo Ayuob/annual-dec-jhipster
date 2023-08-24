@@ -30,6 +30,14 @@
             <a [routerLink]="['/family-member', beneficiary.familyMembers.id, 'view']">{{ beneficiary.familyMembers.name }}</a>
           </div>
         </dd>
+        <dt><span jhiTranslate="annualDecJhApp.beneficiary.annualDeclaration">Annual Declaration</span></dt>
+        <dd>
+          <div *ngIf="beneficiary.annualDeclaration">
+            <a [routerLink]="['/annual-declaration', beneficiary.annualDeclaration.id, 'view']">{{
+              beneficiary.annualDeclaration.submissionDate
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

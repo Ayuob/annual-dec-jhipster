@@ -3,7 +3,6 @@ package ly.qubit.service.impl;
 import java.util.Optional;
 import ly.qubit.domain.Beneficiary;
 import ly.qubit.repository.BeneficiaryRepository;
-import ly.qubit.repository.FamilyMemberRepository;
 import ly.qubit.service.BeneficiaryService;
 import ly.qubit.service.dto.BeneficiaryDTO;
 import ly.qubit.service.mapper.BeneficiaryMapper;
@@ -27,24 +26,15 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     private final BeneficiaryMapper beneficiaryMapper;
 
-    private final FamilyMemberRepository familyMemberRepository;
-
-    public BeneficiaryServiceImpl(
-        BeneficiaryRepository beneficiaryRepository,
-        BeneficiaryMapper beneficiaryMapper,
-        FamilyMemberRepository familyMemberRepository
-    ) {
+    public BeneficiaryServiceImpl(BeneficiaryRepository beneficiaryRepository, BeneficiaryMapper beneficiaryMapper) {
         this.beneficiaryRepository = beneficiaryRepository;
         this.beneficiaryMapper = beneficiaryMapper;
-        this.familyMemberRepository = familyMemberRepository;
     }
 
     @Override
     public BeneficiaryDTO save(BeneficiaryDTO beneficiaryDTO) {
         log.debug("Request to save Beneficiary : {}", beneficiaryDTO);
         Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
-        Long familyMemberId = beneficiaryDTO.getFamilyMembers().getId();
-        familyMemberRepository.findById(familyMemberId).ifPresent(beneficiary::familyMembers);
         beneficiary = beneficiaryRepository.save(beneficiary);
         return beneficiaryMapper.toDto(beneficiary);
     }
@@ -53,8 +43,6 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
     public BeneficiaryDTO update(BeneficiaryDTO beneficiaryDTO) {
         log.debug("Request to update Beneficiary : {}", beneficiaryDTO);
         Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
-        Long familyMemberId = beneficiaryDTO.getFamilyMembers().getId();
-        familyMemberRepository.findById(familyMemberId).ifPresent(beneficiary::familyMembers);
         beneficiary = beneficiaryRepository.save(beneficiary);
         return beneficiaryMapper.toDto(beneficiary);
     }

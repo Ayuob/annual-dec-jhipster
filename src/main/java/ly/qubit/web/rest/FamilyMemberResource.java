@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import ly.qubit.repository.FamilyMemberRepository;
@@ -145,19 +144,13 @@ public class FamilyMemberResource {
      *
      * @param pageable the pagination information.
      * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of familyMembers in body.
      */
     @GetMapping("/family-members")
     public ResponseEntity<List<FamilyMemberDTO>> getAllFamilyMembers(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
-        @RequestParam(required = false) String filter,
         @RequestParam(required = false, defaultValue = "false") boolean eagerload
     ) {
-        if ("beneficiary-is-null".equals(filter)) {
-            log.debug("REST request to get all FamilyMembers where beneficiary is null");
-            return new ResponseEntity<>(familyMemberService.findAllWhereBeneficiaryIsNull(), HttpStatus.OK);
-        }
         log.debug("REST request to get a page of FamilyMembers");
         Page<FamilyMemberDTO> page;
         if (eagerload) {

@@ -1,10 +1,6 @@
 package ly.qubit.service.impl;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import ly.qubit.domain.FamilyMember;
 import ly.qubit.repository.FamilyMemberRepository;
 import ly.qubit.service.FamilyMemberService;
@@ -75,20 +71,6 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
 
     public Page<FamilyMemberDTO> findAllWithEagerRelationships(Pageable pageable) {
         return familyMemberRepository.findAllWithEagerRelationships(pageable).map(familyMemberMapper::toDto);
-    }
-
-    /**
-     *  Get all the familyMembers where Beneficiary is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<FamilyMemberDTO> findAllWhereBeneficiaryIsNull() {
-        log.debug("Request to get all familyMembers where Beneficiary is null");
-        return StreamSupport
-            .stream(familyMemberRepository.findAll().spliterator(), false)
-            .filter(familyMember -> familyMember.getBeneficiary() == null)
-            .map(familyMemberMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class AnnualDeclaration implements Serializable {
         joinColumns = @JoinColumn(name = "annual_declaration_id"),
         inverseJoinColumns = @JoinColumn(name = "family_members_id")
     )
-    @JsonIgnoreProperties(value = { "pensioner", "beneficiary", "annualDeclarations" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "pensioner", "annualDeclarations" }, allowSetters = true)
     private Set<FamilyMember> familyMembers = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

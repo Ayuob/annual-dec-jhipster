@@ -61,9 +61,6 @@ public class BeneficiaryResource {
         if (beneficiaryDTO.getId() != null) {
             throw new BadRequestAlertException("A new beneficiary cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if (Objects.isNull(beneficiaryDTO.getFamilyMembers())) {
-            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
-        }
         BeneficiaryDTO result = beneficiaryService.save(beneficiaryDTO);
         return ResponseEntity
             .created(new URI("/api/beneficiaries/" + result.getId()))

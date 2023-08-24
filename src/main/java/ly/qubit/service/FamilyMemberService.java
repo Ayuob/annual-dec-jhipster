@@ -1,6 +1,5 @@
 package ly.qubit.service;
 
-import java.util.List;
 import java.util.Optional;
 import ly.qubit.service.dto.FamilyMemberDTO;
 import org.springframework.data.domain.Page;
@@ -41,12 +40,6 @@ public interface FamilyMemberService {
      * @return the list of entities.
      */
     Page<FamilyMemberDTO> findAll(Pageable pageable);
-    /**
-     * Get all the FamilyMemberDTO where Beneficiary is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<FamilyMemberDTO> findAllWhereBeneficiaryIsNull();
 
     /**
      * Get all the familyMembers with eager load of many-to-many relationships.
