@@ -1,0 +1,50 @@
+{
+  "applications": "*",
+  "changelogDate": "20230823181950",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "annual_declaration",
+  "fields": [
+    {
+      "fieldName": "submissionDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "DeclarationStatus",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "SUBMITTED (Submitted),APPROVED (Approved),REJECTED (Rejected)"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "AnnualDeclaration",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "documentdType",
+      "otherEntityName": "document",
+      "otherEntityRelationshipName": "annualDeclaration",
+      "relationshipName": "documents",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "nationalNumber",
+      "otherEntityName": "socialSecurityPensioner",
+      "otherEntityRelationshipName": "annualDeclaration",
+      "relationshipName": "pensioner",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nationalNumber",
+      "otherEntityName": "familyMember",
+      "otherEntityRelationshipName": "annualDeclaration",
+      "ownerSide": true,
+      "relationshipName": "familyMembers",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

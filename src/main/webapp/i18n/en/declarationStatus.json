@@ -1,0 +1,10 @@
+{
+  "annualDecJhApp": {
+    "DeclarationStatus": {
+      "null": "",
+      "SUBMITTED": "Submitted",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    }
+  }
+}

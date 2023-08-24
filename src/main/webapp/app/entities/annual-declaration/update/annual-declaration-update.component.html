@@ -1,0 +1,124 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-annual-declaration-heading"
+        data-cy="AnnualDeclarationCreateUpdateHeading"
+        jhiTranslate="annualDecJhApp.annualDeclaration.home.createOrEditLabel"
+      >
+        Create or edit a Annual Declaration
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.annualDeclaration.submissionDate" for="field_submissionDate"
+            >Submission Date</label
+          >
+          <div class="input-group">
+            <input
+              id="field_submissionDate"
+              data-cy="submissionDate"
+              type="text"
+              class="form-control"
+              name="submissionDate"
+              ngbDatepicker
+              #submissionDateDp="ngbDatepicker"
+              formControlName="submissionDate"
+            />
+            <button type="button" class="btn btn-secondary" (click)="submissionDateDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              editForm.get('submissionDate')!.invalid && (editForm.get('submissionDate')!.dirty || editForm.get('submissionDate')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('submissionDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.annualDeclaration.status" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'annualDecJhApp.DeclarationStatus.null' | translate }}</option>
+            <option *ngFor="let declarationStatus of declarationStatusValues" [value]="declarationStatus">
+              {{ 'annualDecJhApp.DeclarationStatus.' + declarationStatus | translate }}
+            </option>
+          </select>
+          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.annualDeclaration.pensioner" for="field_pensioner">Pensioner</label>
+          <select
+            class="form-control"
+            id="field_pensioner"
+            data-cy="pensioner"
+            name="pensioner"
+            formControlName="pensioner"
+            [compareWith]="compareSocialSecurityPensioner"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="socialSecurityPensionerOption"
+              *ngFor="let socialSecurityPensionerOption of socialSecurityPensionersSharedCollection"
+            >
+              {{ socialSecurityPensionerOption.nationalNumber }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label jhiTranslate="annualDecJhApp.annualDeclaration.familyMembers" for="field_familyMembers">Family Members</label>
+          <select
+            class="form-control"
+            id="field_familyMembers"
+            data-cy="familyMembers"
+            multiple
+            name="familyMembers"
+            formControlName="familyMembers"
+            [compareWith]="compareFamilyMember"
+          >
+            <option [ngValue]="familyMemberOption" *ngFor="let familyMemberOption of familyMembersSharedCollection">
+              {{ familyMemberOption.nationalNumber }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">الغاء</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">حفظ</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

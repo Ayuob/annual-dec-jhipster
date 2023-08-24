@@ -1,0 +1,26 @@
+{
+  "annualDecJhApp": {
+    "beneficiary": {
+      "home": {
+        "title": "Beneficiaries",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Beneficiary",
+        "createOrEditLabel": "Create or edit a Beneficiary",
+        "notFound": "No Beneficiaries found"
+      },
+      "created": "A new Beneficiary is created with identifier {{ param }}",
+      "updated": "A Beneficiary is updated with identifier {{ param }}",
+      "deleted": "A Beneficiary is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Beneficiary {{ id }}?"
+      },
+      "detail": {
+        "title": "Beneficiary"
+      },
+      "id": "ID",
+      "entitlementType": "Entitlement Type",
+      "entitlementDetails": "Entitlement Details",
+      "familyMembers": "Family Members"
+    }
+  }
+}

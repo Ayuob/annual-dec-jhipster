@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="socialSecurityPensioner">
+      <h2 data-cy="socialSecurityPensionerDetailsHeading">
+        <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.detail.title">Social Security Pensioner</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ socialSecurityPensioner.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.socialSecurityPensioner.nationalNumber">National Number</span></dt>
+        <dd>
+          <span>{{ socialSecurityPensioner.nationalNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.socialSecurityPensioner.pensionNumber">Pension Number</span></dt>
+        <dd>
+          <span>{{ socialSecurityPensioner.pensionNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.socialSecurityPensioner.dateOfBirth">Date Of Birth</span></dt>
+        <dd>
+          <span>{{ socialSecurityPensioner.dateOfBirth | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.socialSecurityPensioner.address">Address</span></dt>
+        <dd>
+          <span>{{ socialSecurityPensioner.address }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">رجوع</span>
+      </button>
+
+      <button type="button" [routerLink]="['/social-security-pensioner', socialSecurityPensioner.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">تعديل</span>
+      </button>
+    </div>
+  </div>
+</div>

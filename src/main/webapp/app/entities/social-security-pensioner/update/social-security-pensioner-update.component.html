@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-social-security-pensioner-heading"
+        data-cy="SocialSecurityPensionerCreateUpdateHeading"
+        jhiTranslate="annualDecJhApp.socialSecurityPensioner.home.createOrEditLabel"
+      >
+        Create or edit a Social Security Pensioner
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.nationalNumber" for="field_nationalNumber"
+            >National Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="nationalNumber"
+            id="field_nationalNumber"
+            data-cy="nationalNumber"
+            formControlName="nationalNumber"
+          />
+          <div
+            *ngIf="
+              editForm.get('nationalNumber')!.invalid && (editForm.get('nationalNumber')!.dirty || editForm.get('nationalNumber')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nationalNumber')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nationalNumber')?.errors?.minlength"
+              jhiTranslate="entity.validation.minlength"
+              [translateValues]="{ min: 12 }"
+            >
+              هذا الحقل مطلوب أن يكون على الأقل 12 احرف.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('nationalNumber')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 12 }"
+            >
+              هذا الحقل لا يمكن أن يكون أطول من 12 احرف.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.pensionNumber" for="field_pensionNumber"
+            >Pension Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="pensionNumber"
+            id="field_pensionNumber"
+            data-cy="pensionNumber"
+            formControlName="pensionNumber"
+          />
+          <div
+            *ngIf="
+              editForm.get('pensionNumber')!.invalid && (editForm.get('pensionNumber')!.dirty || editForm.get('pensionNumber')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('pensionNumber')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.dateOfBirth" for="field_dateOfBirth"
+            >Date Of Birth</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dateOfBirth"
+              data-cy="dateOfBirth"
+              type="text"
+              class="form-control"
+              name="dateOfBirth"
+              ngbDatepicker
+              #dateOfBirthDp="ngbDatepicker"
+              formControlName="dateOfBirth"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div *ngIf="editForm.get('dateOfBirth')!.invalid && (editForm.get('dateOfBirth')!.dirty || editForm.get('dateOfBirth')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('dateOfBirth')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.address" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+          <div *ngIf="editForm.get('address')!.invalid && (editForm.get('address')!.dirty || editForm.get('address')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('address')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">الغاء</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">حفظ</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

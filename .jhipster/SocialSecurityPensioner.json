@@ -1,0 +1,53 @@
+{
+  "applications": "*",
+  "changelogDate": "20230823181947",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "social_security_pensioner",
+  "fields": [
+    {
+      "fieldName": "nationalNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "minlength", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "12",
+      "fieldValidateRulesMinlength": "12"
+    },
+    {
+      "fieldName": "pensionNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "SocialSecurityPensioner",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "familyMember",
+      "otherEntityRelationshipName": "pensioner",
+      "relationshipName": "familyMembers",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "submissionDate",
+      "otherEntityName": "annualDeclaration",
+      "otherEntityRelationshipName": "pensioner",
+      "relationshipName": "annualDeclaration",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

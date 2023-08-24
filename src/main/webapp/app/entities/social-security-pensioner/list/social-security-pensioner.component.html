@@ -1,0 +1,127 @@
+<div>
+  <h2 id="page-heading" data-cy="SocialSecurityPensionerHeading">
+    <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.home.title">Social Security Pensioners</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-social-security-pensioner"
+        [routerLink]="['/social-security-pensioner/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.home.createLabel"> Create a new Social Security Pensioner </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="socialSecurityPensioners?.length === 0">
+    <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.home.notFound">No Social Security Pensioners found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="socialSecurityPensioners && socialSecurityPensioners.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="global.field.id">ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="nationalNumber">
+            <div class="d-flex">
+              <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.nationalNumber">National Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="pensionNumber">
+            <div class="d-flex">
+              <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.pensionNumber">Pension Number</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dateOfBirth">
+            <div class="d-flex">
+              <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.dateOfBirth">Date Of Birth</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span jhiTranslate="annualDecJhApp.socialSecurityPensioner.address">Address</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let socialSecurityPensioner of socialSecurityPensioners; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/social-security-pensioner', socialSecurityPensioner.id, 'view']">{{ socialSecurityPensioner.id }}</a>
+          </td>
+          <td>{{ socialSecurityPensioner.nationalNumber }}</td>
+          <td>{{ socialSecurityPensioner.pensionNumber }}</td>
+          <td>{{ socialSecurityPensioner.dateOfBirth | formatMediumDate }}</td>
+          <td>{{ socialSecurityPensioner.address }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/social-security-pensioner', socialSecurityPensioner.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">عرض</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/social-security-pensioner', socialSecurityPensioner.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">تعديل</span>
+              </button>
+
+              <button type="submit" (click)="delete(socialSecurityPensioner)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">حذف</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="socialSecurityPensioners && socialSecurityPensioners.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

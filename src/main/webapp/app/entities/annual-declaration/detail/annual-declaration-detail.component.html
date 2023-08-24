@@ -1,0 +1,53 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="annualDeclaration">
+      <h2 data-cy="annualDeclarationDetailsHeading">
+        <span jhiTranslate="annualDecJhApp.annualDeclaration.detail.title">Annual Declaration</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ annualDeclaration.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.submissionDate">Submission Date</span></dt>
+        <dd>
+          <span>{{ annualDeclaration.submissionDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.status">Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}">{{ annualDeclaration.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.pensioner">Pensioner</span></dt>
+        <dd>
+          <div *ngIf="annualDeclaration.pensioner">
+            <a [routerLink]="['/social-security-pensioner', annualDeclaration.pensioner.id, 'view']">{{
+              annualDeclaration.pensioner.nationalNumber
+            }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.familyMembers">Family Members</span></dt>
+        <dd>
+          <span *ngFor="let familyMembers of annualDeclaration.familyMembers; let last = last">
+            <a [routerLink]="['/family-member', familyMembers.id, 'view']">{{ familyMembers.nationalNumber }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">رجوع</span>
+      </button>
+
+      <button type="button" [routerLink]="['/annual-declaration', annualDeclaration.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">تعديل</span>
+      </button>
+    </div>
+  </div>
+</div>

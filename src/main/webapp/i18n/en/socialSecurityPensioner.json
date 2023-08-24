@@ -1,0 +1,29 @@
+{
+  "annualDecJhApp": {
+    "socialSecurityPensioner": {
+      "home": {
+        "title": "Social Security Pensioners",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Social Security Pensioner",
+        "createOrEditLabel": "Create or edit a Social Security Pensioner",
+        "notFound": "No Social Security Pensioners found"
+      },
+      "created": "A new Social Security Pensioner is created with identifier {{ param }}",
+      "updated": "A Social Security Pensioner is updated with identifier {{ param }}",
+      "deleted": "A Social Security Pensioner is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Social Security Pensioner {{ id }}?"
+      },
+      "detail": {
+        "title": "Social Security Pensioner"
+      },
+      "id": "ID",
+      "nationalNumber": "National Number",
+      "pensionNumber": "Pension Number",
+      "dateOfBirth": "Date Of Birth",
+      "address": "Address",
+      "familyMembers": "Family Members",
+      "annualDeclaration": "Annual Declaration"
+    }
+  }
+}

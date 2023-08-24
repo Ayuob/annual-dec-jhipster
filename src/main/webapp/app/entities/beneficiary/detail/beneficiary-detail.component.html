@@ -1,0 +1,44 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="beneficiary">
+      <h2 data-cy="beneficiaryDetailsHeading"><span jhiTranslate="annualDecJhApp.beneficiary.detail.title">Beneficiary</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ beneficiary.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.beneficiary.entitlementType">Entitlement Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'annualDecJhApp.EntitlementType.' + beneficiary.entitlementType }}">{{
+            beneficiary.entitlementType
+          }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.beneficiary.entitlementDetails">Entitlement Details</span></dt>
+        <dd>
+          <span>{{ beneficiary.entitlementDetails }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.beneficiary.familyMembers">Family Members</span></dt>
+        <dd>
+          <div *ngIf="beneficiary.familyMembers">
+            <a [routerLink]="['/family-member', beneficiary.familyMembers.id, 'view']">{{ beneficiary.familyMembers.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">رجوع</span>
+      </button>
+
+      <button type="button" [routerLink]="['/beneficiary', beneficiary.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">تعديل</span>
+      </button>
+    </div>
+  </div>
+</div>

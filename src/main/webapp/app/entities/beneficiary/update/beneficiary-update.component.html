@@ -1,0 +1,101 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-beneficiary-heading"
+        data-cy="BeneficiaryCreateUpdateHeading"
+        jhiTranslate="annualDecJhApp.beneficiary.home.createOrEditLabel"
+      >
+        Create or edit a Beneficiary
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.beneficiary.entitlementType" for="field_entitlementType"
+            >Entitlement Type</label
+          >
+          <select
+            class="form-control"
+            name="entitlementType"
+            formControlName="entitlementType"
+            id="field_entitlementType"
+            data-cy="entitlementType"
+          >
+            <option [ngValue]="null">{{ 'annualDecJhApp.EntitlementType.null' | translate }}</option>
+            <option *ngFor="let entitlementType of entitlementTypeValues" [value]="entitlementType">
+              {{ 'annualDecJhApp.EntitlementType.' + entitlementType | translate }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              editForm.get('entitlementType')!.invalid &&
+              (editForm.get('entitlementType')!.dirty || editForm.get('entitlementType')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('entitlementType')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.beneficiary.entitlementDetails" for="field_entitlementDetails"
+            >Entitlement Details</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="entitlementDetails"
+            id="field_entitlementDetails"
+            data-cy="entitlementDetails"
+            formControlName="entitlementDetails"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.beneficiary.familyMembers" for="field_familyMembers">Family Members</label>
+          <select
+            class="form-control"
+            id="field_familyMembers"
+            data-cy="familyMembers"
+            name="familyMembers"
+            formControlName="familyMembers"
+            [compareWith]="compareFamilyMember"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="familyMemberOption" *ngFor="let familyMemberOption of familyMembersCollection">
+              {{ familyMemberOption.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">الغاء</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">حفظ</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

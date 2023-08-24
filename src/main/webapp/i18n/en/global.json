@@ -7,6 +7,11 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "socialSecurityPensioner": "Social Security Pensioner",
+        "familyMember": "Family Member",
+        "beneficiary": "Beneficiary",
+        "annualDeclaration": "Annual Declaration",
+        "document": "Document",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

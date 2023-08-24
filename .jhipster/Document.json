@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20230823181951",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "document",
+  "fields": [
+    {
+      "fieldName": "fileName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "filePath",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "submissionDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "documentdType",
+      "fieldType": "DocumentdType",
+      "fieldValues": "IDENTITY (Identity Document),INCOME (Income Certificate),FAMILY (Family Information),MEDICAL (Medical Records),RESIDENCE (Residence Proof),OTHER (Other Document)"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Document",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "submissionDate",
+      "otherEntityName": "annualDeclaration",
+      "otherEntityRelationshipName": "documents",
+      "relationshipName": "annualDeclaration",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

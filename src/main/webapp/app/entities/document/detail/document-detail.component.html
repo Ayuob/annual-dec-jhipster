@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="document">
+      <h2 data-cy="documentDetailsHeading"><span jhiTranslate="annualDecJhApp.document.detail.title">Document</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ document.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.document.fileName">File Name</span></dt>
+        <dd>
+          <span>{{ document.fileName }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.document.filePath">File Path</span></dt>
+        <dd>
+          <span>{{ document.filePath }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.document.submissionDate">Submission Date</span></dt>
+        <dd>
+          <span>{{ document.submissionDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.document.documentdType">Documentd Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'annualDecJhApp.DocumentdType.' + document.documentdType }}">{{ document.documentdType }}</span>
+        </dd>
+        <dt><span jhiTranslate="annualDecJhApp.document.annualDeclaration">Annual Declaration</span></dt>
+        <dd>
+          <div *ngIf="document.annualDeclaration">
+            <a [routerLink]="['/annual-declaration', document.annualDeclaration.id, 'view']">{{
+              document.annualDeclaration.submissionDate
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">رجوع</span>
+      </button>
+
+      <button type="button" [routerLink]="['/document', document.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">تعديل</span>
+      </button>
+    </div>
+  </div>
+</div>

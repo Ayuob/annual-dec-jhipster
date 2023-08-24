@@ -1,10 +1,3 @@
-application {
-  config {
-      baseName annual-dec-jh
-      packageName ly.qubit
-  }
-  entities * // This will include all entities in the application
-}
 
 entity SocialSecurityPensioner {
   nationalNumber String required minlength(12) maxlength(12) unique,
@@ -33,7 +26,7 @@ entity AnnualDeclaration {
 entity Document {
   fileName String required,
   filePath String required,
-  submission_date Instant required,
+  submissionDate Instant required,
   documentdType  DocumentdType
 }
 
@@ -60,16 +53,19 @@ enum DocumentdType {
 }
 
 relationship ManyToOne {
-  SocialSecurityPensioner{familyMembers(name)}  to FamilyMember
-  AnnualDeclaration{pensioner (nationalNumber)} to SocialSecurityPensioner {AnnualDeclaration(submissionDate)}
+    FamilyMember {pensioner (nationalNumber)} to SocialSecurityPensioner{familyMembers(name)}
+  AnnualDeclaration {pensioner (nationalNumber)} to SocialSecurityPensioner {annualDeclaration(submissionDate)}
+}
+relationship ManyToMany{
+    AnnualDeclaration {familyMembers (nationalNumber)} to FamilyMember {annualDeclaration(submissionDate)}
 }
 
 relationship OneToOne {
-  FamilyMember{beneficiary} to @Id Beneficiary
+    Beneficiary {familyMembers(name)} to @Id FamilyMember
 }
 
 relationship OneToMany {
-  AnnualDeclaration{documents(documentdType)} to Document
+  AnnualDeclaration{documents(documentdType)} to Document {annualDeclaration(submissionDate)}
 }
 
 paginate SocialSecurityPensioner, FamilyMember, Beneficiary, AnnualDeclaration, Document with pagination
