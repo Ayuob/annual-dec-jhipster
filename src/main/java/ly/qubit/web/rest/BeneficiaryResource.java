@@ -7,9 +7,11 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import ly.qubit.domain.BeneficiaryId;
 import ly.qubit.repository.BeneficiaryRepository;
 import ly.qubit.service.BeneficiaryService;
-import ly.qubit.service.dto.BeneficiaryDTO;
+import ly.qubit.service.dto.BeneficiaryDto_Empd;
+import ly.qubit.service.dto.BeneficiaryIdDto;
 import ly.qubit.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -56,12 +57,13 @@ public class BeneficiaryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/beneficiaries")
-    public ResponseEntity<BeneficiaryDTO> createBeneficiary(@Valid @RequestBody BeneficiaryDTO beneficiaryDTO) throws URISyntaxException {
+    public ResponseEntity<BeneficiaryDto_Empd> createBeneficiary(@Valid @RequestBody BeneficiaryDto_Empd beneficiaryDTO)
+        throws URISyntaxException {
         log.debug("REST request to save Beneficiary : {}", beneficiaryDTO);
         if (beneficiaryDTO.getId() != null) {
             throw new BadRequestAlertException("A new beneficiary cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BeneficiaryDTO result = beneficiaryService.save(beneficiaryDTO);
+        BeneficiaryDto_Empd result = beneficiaryService.save(beneficiaryDTO);
         return ResponseEntity
             .created(new URI("/api/beneficiaries/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -71,19 +73,24 @@ public class BeneficiaryResource {
     /**
      * {@code PUT  /beneficiaries/:id} : Updates an existing beneficiary.
      *
-     * @param id the id of the beneficiaryDTO to save.
+     * @param fid the id of the beneficiaryDTO.FM to save.
+     * @param aid the id of the beneficiaryDTO.AD to save.
      * @param beneficiaryDTO the beneficiaryDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated beneficiaryDTO,
      * or with status {@code 400 (Bad Request)} if the beneficiaryDTO is not valid,
      * or with status {@code 500 (Internal Server Error)} if the beneficiaryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PutMapping("/beneficiaries/{id}")
-    public ResponseEntity<BeneficiaryDTO> updateBeneficiary(
-        @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody BeneficiaryDTO beneficiaryDTO
+    @PutMapping("/beneficiaries/{fid}/{aid}")
+    public ResponseEntity<BeneficiaryDto_Empd> updateBeneficiary(
+        @PathVariable(value = "fid", required = false) final Long fid,
+        @PathVariable(value = "aid", required = false) final Long aid,
+        @Valid @RequestBody BeneficiaryDto_Empd beneficiaryDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Beneficiary : {}, {}", id, beneficiaryDTO);
+        log.debug("REST request to update Beneficiary : {}, {}, {}", aid, fid, beneficiaryDTO);
+
+        BeneficiaryId id = new BeneficiaryId(fid, aid);
+
         if (beneficiaryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -95,7 +102,7 @@ public class BeneficiaryResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        BeneficiaryDTO result = beneficiaryService.update(beneficiaryDTO);
+        BeneficiaryDto_Empd result = beneficiaryService.update(beneficiaryDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, beneficiaryDTO.getId().toString()))
@@ -105,7 +112,8 @@ public class BeneficiaryResource {
     /**
      * {@code PATCH  /beneficiaries/:id} : Partial updates given fields of an existing beneficiary, field will ignore if it is null
      *
-     * @param id the id of the beneficiaryDTO to save.
+     * @param fid the id of the beneficiaryDTO.FM to save.
+     * @param aid the id of the beneficiaryDTO.AD to save.
      * @param beneficiaryDTO the beneficiaryDTO to update.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated beneficiaryDTO,
      * or with status {@code 400 (Bad Request)} if the beneficiaryDTO is not valid,
@@ -113,12 +121,16 @@ public class BeneficiaryResource {
      * or with status {@code 500 (Internal Server Error)} if the beneficiaryDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/beneficiaries/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<BeneficiaryDTO> partialUpdateBeneficiary(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody BeneficiaryDTO beneficiaryDTO
+    @PatchMapping(value = "/beneficiaries/{fid}/{aid}", consumes = { "application/json", "application/merge-patch+json" })
+    public ResponseEntity<BeneficiaryDto_Empd> partialUpdateBeneficiary(
+        @PathVariable(value = "aid", required = false) final Long fid,
+        @PathVariable(value = "fid", required = false) final Long aid,
+        @NotNull @RequestBody BeneficiaryDto_Empd beneficiaryDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Beneficiary partially : {}, {}", id, beneficiaryDTO);
+        log.debug("REST request to partial update Beneficiary partially : {} and {} {} ", fid, aid, beneficiaryDTO);
+
+        BeneficiaryId id = new BeneficiaryId(fid, aid);
+
         if (beneficiaryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
@@ -130,7 +142,7 @@ public class BeneficiaryResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<BeneficiaryDTO> result = beneficiaryService.partialUpdate(beneficiaryDTO);
+        Optional<BeneficiaryDto_Empd> result = beneficiaryService.partialUpdate(beneficiaryDTO);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -146,12 +158,12 @@ public class BeneficiaryResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of beneficiaries in body.
      */
     @GetMapping("/beneficiaries")
-    public ResponseEntity<List<BeneficiaryDTO>> getAllBeneficiaries(
+    public ResponseEntity<List<BeneficiaryDto_Empd>> getAllBeneficiaries(
         @org.springdoc.api.annotations.ParameterObject Pageable pageable,
         @RequestParam(required = false, defaultValue = "false") boolean eagerload
     ) {
         log.debug("REST request to get a page of Beneficiaries");
-        Page<BeneficiaryDTO> page;
+        Page<BeneficiaryDto_Empd> page;
         if (eagerload) {
             page = beneficiaryService.findAllWithEagerRelationships(pageable);
         } else {
@@ -164,29 +176,31 @@ public class BeneficiaryResource {
     /**
      * {@code GET  /beneficiaries/:id} : get the "id" beneficiary.
      *
-     * @param id the id of the beneficiaryDTO to retrieve.
+     * @param fid the first pat of composite id of the beneficiaryDTO to retrieve.
+     * @param aid the second pat of composite id of the beneficiaryDTO to retrieve.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the beneficiaryDTO, or with status {@code 404 (Not Found)}.
      */
-    @GetMapping("/beneficiaries/{id}")
-    public ResponseEntity<BeneficiaryDTO> getBeneficiary(@PathVariable Long id) {
-        log.debug("REST request to get Beneficiary : {}", id);
-        Optional<BeneficiaryDTO> beneficiaryDTO = beneficiaryService.findOne(id);
+    @GetMapping("/beneficiaries/{fid}/{aid}")
+    public ResponseEntity<BeneficiaryDto_Empd> getBeneficiary(@PathVariable Long fid, @PathVariable Long aid) {
+        log.debug("REST request to get Beneficiary : {} and {}", fid, aid);
+        Optional<BeneficiaryDto_Empd> beneficiaryDTO = beneficiaryService.findOne(new BeneficiaryIdDto(fid, aid));
         return ResponseUtil.wrapOrNotFound(beneficiaryDTO);
     }
 
     /**
      * {@code DELETE  /beneficiaries/:id} : delete the "id" beneficiary.
      *
-     * @param id the id of the beneficiaryDTO to delete.
+     * @param fid the id of the family beneficiaryDTO to delete.
+     * @param aid the id of the annual beneficiaryDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/beneficiaries/{id}")
-    public ResponseEntity<Void> deleteBeneficiary(@PathVariable Long id) {
-        log.debug("REST request to delete Beneficiary : {}", id);
-        beneficiaryService.delete(id);
+    @DeleteMapping("/beneficiaries/{fid}/{aid}}")
+    public ResponseEntity<Void> deleteBeneficiary(@PathVariable Long fid, @PathVariable Long aid) {
+        log.debug("REST request to delete Beneficiary : {} and {}", fid, aid);
+        beneficiaryService.delete(new BeneficiaryIdDto(fid, aid));
         return ResponseEntity
             .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, aid.toString() + " " + fid.toString()))
             .build();
     }
 }

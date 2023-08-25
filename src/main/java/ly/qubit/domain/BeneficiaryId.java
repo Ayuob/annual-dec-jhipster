@@ -2,19 +2,24 @@ package ly.qubit.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 @Embeddable
-public class FamilyMemberAnnualDeclarationId implements Serializable {
+public class BeneficiaryId implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @Column(name = "family_member_id")
     private Long familyMemberId;
+
+    @Column(name = "annual_declaration_id")
     private Long annualDeclarationId;
 
-    public FamilyMemberAnnualDeclarationId() {}
+    public BeneficiaryId() {}
 
-    public FamilyMemberAnnualDeclarationId(Long bookId, Long publisherId) {
+    public BeneficiaryId(Long familyMemberId, Long annualDeclarationId) {
         super();
         this.familyMemberId = familyMemberId;
         this.annualDeclarationId = annualDeclarationId;
@@ -24,16 +29,16 @@ public class FamilyMemberAnnualDeclarationId implements Serializable {
         return familyMemberId;
     }
 
-    public void setFamilyMemberId(Long familyMemberId) {
-        familyMemberId = familyMemberId;
-    }
-
     public Long getAnnualDeclarationId() {
         return annualDeclarationId;
     }
 
+    public void setFamilyMemberId(Long familyMemberId) {
+        this.familyMemberId = familyMemberId;
+    }
+
     public void setAnnualDeclarationId(Long annualDeclarationId) {
-        annualDeclarationId = annualDeclarationId;
+        this.annualDeclarationId = annualDeclarationId;
     }
 
     @Override
@@ -50,7 +55,7 @@ public class FamilyMemberAnnualDeclarationId implements Serializable {
         if (this == obj) return true;
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
-        FamilyMemberAnnualDeclarationId other = (FamilyMemberAnnualDeclarationId) obj;
+        BeneficiaryId other = (BeneficiaryId) obj;
         return (
             Objects.equals(getFamilyMemberId(), other.getFamilyMemberId()) &&
             Objects.equals(getAnnualDeclarationId(), other.getAnnualDeclarationId())

@@ -22,7 +22,7 @@ public class Beneficiary implements Serializable {
     //    @Column(name = "id")
     //    private Long id;
     @EmbeddedId
-    private FamilyMemberAnnualDeclarationId id = new FamilyMemberAnnualDeclarationId();
+    private BeneficiaryId id = new BeneficiaryId();
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -44,16 +44,16 @@ public class Beneficiary implements Serializable {
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public FamilyMemberAnnualDeclarationId getId() {
+    public BeneficiaryId getId() {
         return this.id;
     }
 
-    public Beneficiary id(FamilyMemberAnnualDeclarationId id) {
+    public Beneficiary id(BeneficiaryId id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(FamilyMemberAnnualDeclarationId id) {
+    public void setId(BeneficiaryId id) {
         this.id = id;
     }
 

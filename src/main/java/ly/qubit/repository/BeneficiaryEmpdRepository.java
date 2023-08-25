@@ -6,15 +6,11 @@ import ly.qubit.domain.Beneficiary;
 import ly.qubit.domain.BeneficiaryId;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
-/**
- * Spring Data JPA repository for the Beneficiary entity.
- */
-@Repository
-public interface BeneficiaryRepository extends JpaRepository<Beneficiary, BeneficiaryId> {
+public interface BeneficiaryEmpdRepository extends JpaRepository<Beneficiary, BeneficiaryId> {
     default Optional<Beneficiary> findOneWithEagerRelationships(BeneficiaryId id) {
         return this.findOneWithToOneRelationships(id.getAnnualDeclarationId(), id.getFamilyMemberId());
     }

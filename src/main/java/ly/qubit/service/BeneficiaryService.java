@@ -1,9 +1,11 @@
 package ly.qubit.service;
 
 import java.util.Optional;
-import ly.qubit.service.dto.BeneficiaryDTO;
+import ly.qubit.service.dto.BeneficiaryDto_Empd;
+import ly.qubit.service.dto.BeneficiaryIdDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Interface for managing {@link ly.qubit.domain.Beneficiary}.
@@ -15,7 +17,7 @@ public interface BeneficiaryService {
      * @param beneficiaryDTO the entity to save.
      * @return the persisted entity.
      */
-    BeneficiaryDTO save(BeneficiaryDTO beneficiaryDTO);
+    BeneficiaryDto_Empd save(BeneficiaryDto_Empd beneficiaryDTO);
 
     /**
      * Updates a beneficiary.
@@ -23,7 +25,7 @@ public interface BeneficiaryService {
      * @param beneficiaryDTO the entity to update.
      * @return the persisted entity.
      */
-    BeneficiaryDTO update(BeneficiaryDTO beneficiaryDTO);
+    BeneficiaryDto_Empd update(BeneficiaryDto_Empd beneficiaryDTO);
 
     /**
      * Partially updates a beneficiary.
@@ -31,7 +33,7 @@ public interface BeneficiaryService {
      * @param beneficiaryDTO the entity to update partially.
      * @return the persisted entity.
      */
-    Optional<BeneficiaryDTO> partialUpdate(BeneficiaryDTO beneficiaryDTO);
+    Optional<BeneficiaryDto_Empd> partialUpdate(BeneficiaryDto_Empd beneficiaryDTO);
 
     /**
      * Get all the beneficiaries.
@@ -39,7 +41,7 @@ public interface BeneficiaryService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<BeneficiaryDTO> findAll(Pageable pageable);
+    Page<BeneficiaryDto_Empd> findAll(Pageable pageable);
 
     /**
      * Get all the beneficiaries with eager load of many-to-many relationships.
@@ -47,7 +49,7 @@ public interface BeneficiaryService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<BeneficiaryDTO> findAllWithEagerRelationships(Pageable pageable);
+    Page<BeneficiaryDto_Empd> findAllWithEagerRelationships(Pageable pageable);
 
     /**
      * Get the "id" beneficiary.
@@ -55,12 +57,8 @@ public interface BeneficiaryService {
      * @param id the id of the entity.
      * @return the entity.
      */
-    Optional<BeneficiaryDTO> findOne(Long id);
+    @Transactional(readOnly = true)
+    Optional<BeneficiaryDto_Empd> findOne(BeneficiaryIdDto id);
 
-    /**
-     * Delete the "id" beneficiary.
-     *
-     * @param id the id of the entity.
-     */
-    void delete(Long id);
+    void delete(BeneficiaryIdDto id);
 }

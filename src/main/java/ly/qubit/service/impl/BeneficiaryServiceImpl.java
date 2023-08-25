@@ -2,10 +2,12 @@ package ly.qubit.service.impl;
 
 import java.util.Optional;
 import ly.qubit.domain.Beneficiary;
+import ly.qubit.domain.BeneficiaryId;
 import ly.qubit.repository.BeneficiaryRepository;
 import ly.qubit.service.BeneficiaryService;
-import ly.qubit.service.dto.BeneficiaryDTO;
-import ly.qubit.service.mapper.BeneficiaryMapper;
+import ly.qubit.service.dto.BeneficiaryDto_Empd;
+import ly.qubit.service.dto.BeneficiaryIdDto;
+import ly.qubit.service.mapper.BeneficiaryEmpededMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,23 +26,26 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     private final BeneficiaryRepository beneficiaryRepository;
 
-    private final BeneficiaryMapper beneficiaryMapper;
+    private final BeneficiaryEmpededMapper beneficiaryMapper;
 
-    public BeneficiaryServiceImpl(BeneficiaryRepository beneficiaryRepository, BeneficiaryMapper beneficiaryMapper) {
+    public BeneficiaryServiceImpl(BeneficiaryRepository beneficiaryRepository, BeneficiaryEmpededMapper beneficiaryMapper) {
         this.beneficiaryRepository = beneficiaryRepository;
         this.beneficiaryMapper = beneficiaryMapper;
     }
 
     @Override
-    public BeneficiaryDTO save(BeneficiaryDTO beneficiaryDTO) {
+    public BeneficiaryDto_Empd save(BeneficiaryDto_Empd beneficiaryDTO) {
         log.debug("Request to save Beneficiary : {}", beneficiaryDTO);
         Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
-        beneficiary = beneficiaryRepository.save(beneficiary);
-        return beneficiaryMapper.toDto(beneficiary);
+
+        BeneficiaryId id = new BeneficiaryId(beneficiary.getFamilyMembers().getId(), beneficiary.getAnnualDeclaration().getId());
+        beneficiary.setId(id);
+        Beneficiary savedBeneficiary = beneficiaryRepository.save(beneficiary);
+        return beneficiaryMapper.toDto(savedBeneficiary);
     }
 
     @Override
-    public BeneficiaryDTO update(BeneficiaryDTO beneficiaryDTO) {
+    public BeneficiaryDto_Empd update(BeneficiaryDto_Empd beneficiaryDTO) {
         log.debug("Request to update Beneficiary : {}", beneficiaryDTO);
         Beneficiary beneficiary = beneficiaryMapper.toEntity(beneficiaryDTO);
         beneficiary = beneficiaryRepository.save(beneficiary);
@@ -48,11 +53,11 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
     }
 
     @Override
-    public Optional<BeneficiaryDTO> partialUpdate(BeneficiaryDTO beneficiaryDTO) {
+    public Optional<BeneficiaryDto_Empd> partialUpdate(BeneficiaryDto_Empd beneficiaryDTO) {
         log.debug("Request to partially update Beneficiary : {}", beneficiaryDTO);
 
         return beneficiaryRepository
-            .findById(beneficiaryDTO.getId())
+            .findById(beneficiaryMapper.toEntity(beneficiaryDTO).getId())
             .map(existingBeneficiary -> {
                 beneficiaryMapper.partialUpdate(existingBeneficiary, beneficiaryDTO);
 
@@ -64,25 +69,27 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<BeneficiaryDTO> findAll(Pageable pageable) {
+    public Page<BeneficiaryDto_Empd> findAll(Pageable pageable) {
         log.debug("Request to get all Beneficiaries");
         return beneficiaryRepository.findAll(pageable).map(beneficiaryMapper::toDto);
     }
 
-    public Page<BeneficiaryDTO> findAllWithEagerRelationships(Pageable pageable) {
+    public Page<BeneficiaryDto_Empd> findAllWithEagerRelationships(Pageable pageable) {
         return beneficiaryRepository.findAllWithEagerRelationships(pageable).map(beneficiaryMapper::toDto);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Optional<BeneficiaryDTO> findOne(Long id) {
+    public Optional<BeneficiaryDto_Empd> findOne(BeneficiaryIdDto id) {
         log.debug("Request to get Beneficiary : {}", id);
-        return beneficiaryRepository.findOneWithEagerRelationships(id).map(beneficiaryMapper::toDto);
+        return beneficiaryRepository
+            .findOneWithEagerRelationships(new BeneficiaryId(id.getFamilyMemberId(), id.getAnnualDeclarationId()))
+            .map(beneficiaryMapper::toDto);
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(BeneficiaryIdDto id) {
         log.debug("Request to delete Beneficiary : {}", id);
-        beneficiaryRepository.deleteById(id);
+        beneficiaryRepository.deleteById(new BeneficiaryId(id.getFamilyMemberId(), id.getAnnualDeclarationId()));
     }
 }

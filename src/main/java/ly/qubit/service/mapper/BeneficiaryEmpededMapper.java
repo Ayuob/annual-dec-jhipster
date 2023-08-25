@@ -9,14 +9,11 @@ import ly.qubit.service.dto.BeneficiaryDto_Empd;
 import ly.qubit.service.dto.FamilyMemberDTO;
 import org.mapstruct.*;
 
-/**
- * Mapper for the entity {@link Beneficiary} and its DTO {@link BeneficiaryDTO}.
- */
-@Mapper(componentModel = "spring")
-public interface BeneficiaryMapper extends EntityMapper<BeneficiaryDto_Empd, Beneficiary> {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface BeneficiaryEmpededMapper extends EntityMapper<BeneficiaryDto_Empd, Beneficiary> {
     @Mapping(target = "familyMembers", source = "familyMembers", qualifiedByName = "familyMemberName")
     @Mapping(target = "annualDeclaration", source = "annualDeclaration", qualifiedByName = "annualDeclarationSubmissionDate")
-    @Mapping(target = "annualDeclaration", source = "annualDeclaration", qualifiedByName = "annualDeclarationSubmissionDate")
+    @Mapping(target = "id", source = "id", qualifiedByName = "annualDeclarationSubmissionDate")
     BeneficiaryDto_Empd toDto(Beneficiary s);
 
     @Named("familyMemberName")
