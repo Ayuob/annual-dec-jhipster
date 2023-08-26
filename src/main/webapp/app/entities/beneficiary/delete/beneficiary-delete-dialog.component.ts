@@ -17,8 +17,8 @@ export class BeneficiaryDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(id: number): void {
-    this.beneficiaryService.delete(id).subscribe(() => {
+  confirmDelete(familyMembersId: number, annualDeclarationId: number): void {
+    this.beneficiaryService.delete(familyMembersId, annualDeclarationId).subscribe(() => {
       this.activeModal.close(ITEM_DELETED_EVENT);
     });
   }

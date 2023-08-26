@@ -8,6 +8,7 @@ import { createRequestOption } from 'app/core/request/request-util';
 import { IBeneficiary, NewBeneficiary } from '../beneficiary.model';
 
 export type PartialUpdateBeneficiary = Partial<IBeneficiary> & Pick<IBeneficiary, 'id'>;
+// export type PartialUpdateBeneficiary = Partial<IBeneficiary> & Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'>;
 
 export type EntityResponseType = HttpResponse<IBeneficiary>;
 export type EntityArrayResponseType = HttpResponse<IBeneficiary[]>;
@@ -34,8 +35,13 @@ export class BeneficiaryService {
     });
   }
 
-  find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IBeneficiary>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  // find(id: number): Observable<EntityResponseType> {
+  //   return this.http.get<IBeneficiary>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  // }
+  find(familyMembersId: number, annualDeclarationId: number): Observable<EntityResponseType> {
+    return this.http.get<IBeneficiary>(`${this.resourceUrl}/${familyMembersId}/${annualDeclarationId}`, {
+      observe: 'response',
+    });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
@@ -43,17 +49,37 @@ export class BeneficiaryService {
     return this.http.get<IBeneficiary[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  // delete(id: number): Observable<HttpResponse<{}>> {
+  //   return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  // }
+  delete(familyMembersId: number, annualDeclarationId: number): Observable<HttpResponse<{}>> {
+    const url = `${this.resourceUrl}/${familyMembersId}/${annualDeclarationId}`;
+    return this.http.delete(url, { observe: 'response' });
   }
 
-  getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): number {
+  getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): {
+    familyMemberId: number;
+    annualDeclarationId: number;
+  } {
     return beneficiary.id;
   }
+  // getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'>): string {
+  //   return `${beneficiary.familyMembersId}-${beneficiary.annualDeclarationId}`;
+  // }
 
   compareBeneficiary(o1: Pick<IBeneficiary, 'id'> | null, o2: Pick<IBeneficiary, 'id'> | null): boolean {
-    return o1 && o2 ? this.getBeneficiaryIdentifier(o1) === this.getBeneficiaryIdentifier(o2) : o1 === o2;
+    return o1 && o2
+      ? this.getBeneficiaryIdentifier(o1).familyMemberId === this.getBeneficiaryIdentifier(o2).familyMemberId
+      : o1 === o2 && o1 && o2
+      ? this.getBeneficiaryIdentifier(o1).annualDeclarationId === this.getBeneficiaryIdentifier(o2).annualDeclarationId
+      : o1 === o2;
   }
+  // compareBeneficiary(o1: Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'> | null, o2: Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'> | null): boolean {
+  //   return o1 && o2 ? (
+  //     o1.familyMembersId === o2.familyMembersId &&
+  //     o1.annualDeclarationId === o2.annualDeclarationId
+  //   ) : o1 === o2;
+  // }
 
   addBeneficiaryToCollectionIfMissing<Type extends Pick<IBeneficiary, 'id'>>(
     beneficiaryCollection: Type[],
@@ -62,10 +88,10 @@ export class BeneficiaryService {
     const beneficiaries: Type[] = beneficiariesToCheck.filter(isPresent);
     if (beneficiaries.length > 0) {
       const beneficiaryCollectionIdentifiers = beneficiaryCollection.map(
-        beneficiaryItem => this.getBeneficiaryIdentifier(beneficiaryItem)!
+        beneficiaryItem => `${beneficiaryItem.id.familyMemberId}-${beneficiaryItem.id.annualDeclarationId}`
       );
       const beneficiariesToAdd = beneficiaries.filter(beneficiaryItem => {
-        const beneficiaryIdentifier = this.getBeneficiaryIdentifier(beneficiaryItem);
+        const beneficiaryIdentifier = `${beneficiaryItem.id.familyMemberId}-${beneficiaryItem.id.annualDeclarationId}`;
         if (beneficiaryCollectionIdentifiers.includes(beneficiaryIdentifier)) {
           return false;
         }

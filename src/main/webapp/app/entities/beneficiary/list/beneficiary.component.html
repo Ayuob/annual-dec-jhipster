@@ -68,7 +68,9 @@
       <tbody>
         <tr *ngFor="let beneficiary of beneficiaries; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/beneficiary', beneficiary.id, 'view']">{{ beneficiary.id }}</a>
+            <a [routerLink]="['/beneficiary', beneficiary.familyMembers?.id, beneficiary.annualDeclaration?.id, 'view']">{{
+              beneficiary.familyMembers?.id
+            }}</a>
           </td>
           <td jhiTranslate="{{ 'annualDecJhApp.EntitlementType.' + beneficiary.entitlementType }}">{{ beneficiary.entitlementType }}</td>
           <td>{{ beneficiary.entitlementDetails }}</td>
@@ -88,7 +90,7 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/beneficiary', beneficiary.id, 'view']"
+                [routerLink]="['/beneficiary', beneficiary.familyMembersId, beneficiary.annualDeclarationId, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
@@ -98,7 +100,7 @@
 
               <button
                 type="submit"
-                [routerLink]="['/beneficiary', beneficiary.id, 'edit']"
+                [routerLink]="['/beneficiary', beneficiary.familyMembersId, beneficiary.annualDeclarationId, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >

@@ -56,12 +56,26 @@ export class BeneficiaryUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  // save(): void {
+  //   this.isSaving = true;
+  //   const beneficiary = this.beneficiaryFormService.getBeneficiary(this.editForm);
+  //   if (beneficiary.id !== null) {
+  //     this.subscribeToSaveResponse(this.beneficiaryService.update(beneficiary));
+  //   } else {
+  //     this.subscribeToSaveResponse(this.beneficiaryService.create(beneficiary));
+  //   }
+  // }
   save(): void {
     this.isSaving = true;
+
+    // Get the beneficiary object from the form using beneficiaryFormService
     const beneficiary = this.beneficiaryFormService.getBeneficiary(this.editForm);
-    if (beneficiary.id !== null) {
+
+    if (beneficiary.familyMembersId !== null && beneficiary.annualDeclarationId !== null) {
+      // If both familyMembersId and annualDeclarationId are not null, update the existing entity
       this.subscribeToSaveResponse(this.beneficiaryService.update(beneficiary));
     } else {
+      // If either familyMembersId or annualDeclarationId is null, create a new entity
       this.subscribeToSaveResponse(this.beneficiaryService.create(beneficiary));
     }
   }

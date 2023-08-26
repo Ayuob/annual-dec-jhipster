@@ -18,7 +18,7 @@ const beneficiaryRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: ':familyMembersId/:annualDeclarationId/view',
     component: BeneficiaryDetailComponent,
     resolve: {
       beneficiary: BeneficiaryRoutingResolveService,

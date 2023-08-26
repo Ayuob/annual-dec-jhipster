@@ -3,11 +3,22 @@ import { IAnnualDeclaration } from 'app/entities/annual-declaration/annual-decla
 import { EntitlementType } from 'app/entities/enumerations/entitlement-type.model';
 
 export interface IBeneficiary {
-  id: number;
+  id: {
+    familyMemberId: number;
+    annualDeclarationId: number;
+  };
   entitlementType?: EntitlementType | null;
   entitlementDetails?: string | null;
-  familyMembers?: Pick<IFamilyMember, 'id' | 'name'> | null;
+  familyMembers?: Pick<IFamilyMember, 'id' | 'name' | 'nationalNumber'> | null;
   annualDeclaration?: Pick<IAnnualDeclaration, 'id' | 'submissionDate'> | null;
 }
 
-export type NewBeneficiary = Omit<IBeneficiary, 'id'> & { id: null };
+// export type NewBeneficiary = Omit<IBeneficiary, 'id'> & { id: null };
+
+export type NewBeneficiary = Omit<IBeneficiary, 'id'> & {
+  id: { familyMembersId: null; annualDeclarationId: null };
+};
+//v2
+// export type NewBeneficiary = Omit<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'> & {
+//    familyMembersId: null, annualDeclarationId: null
+// };

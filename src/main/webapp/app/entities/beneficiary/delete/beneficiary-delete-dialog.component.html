@@ -1,4 +1,4 @@
-<form *ngIf="beneficiary" name="deleteForm" (ngSubmit)="confirmDelete(beneficiary.id!)">
+<form *ngIf="beneficiary" name="deleteForm" (ngSubmit)="confirmDelete(beneficiary.familyMembersId!, beneficiary.annualDeclarationId!)">
   <div class="modal-header">
     <h4 class="modal-title" data-cy="beneficiaryDeleteDialogHeading" jhiTranslate="entity.delete.title">تأكيد عملية الحذف</h4>
 
@@ -10,9 +10,9 @@
     <p
       id="jhi-delete-beneficiary-heading"
       jhiTranslate="annualDecJhApp.beneficiary.delete.question"
-      [translateValues]="{ id: beneficiary.id }"
+      [translateValues]="{ id: beneficiary.familyMembers?.name }"
     >
-      Are you sure you want to delete Beneficiary {{ beneficiary.id }}?
+      Are you sure you want to delete Beneficiary {{ beneficiary.familyMembers?.name }}?
     </p>
   </div>
 

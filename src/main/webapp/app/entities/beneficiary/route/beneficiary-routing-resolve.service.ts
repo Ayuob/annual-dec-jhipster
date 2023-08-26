@@ -12,9 +12,11 @@ export class BeneficiaryRoutingResolveService implements Resolve<IBeneficiary | 
   constructor(protected service: BeneficiaryService, protected router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IBeneficiary | null | never> {
-    const id = route.params['id'];
-    if (id) {
-      return this.service.find(id).pipe(
+    const familyMembersId = route.params['familyMembersId'];
+    const annualDeclarationId = route.params['annualDeclarationId'];
+
+    if (familyMembersId && annualDeclarationId) {
+      return this.service.find(familyMembersId, annualDeclarationId).pipe(
         mergeMap((beneficiary: HttpResponse<IBeneficiary>) => {
           if (beneficiary.body) {
             return of(beneficiary.body);
