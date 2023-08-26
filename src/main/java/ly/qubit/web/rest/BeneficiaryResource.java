@@ -65,8 +65,22 @@ public class BeneficiaryResource {
         }
         BeneficiaryDto_Empd result = beneficiaryService.save(beneficiaryDTO);
         return ResponseEntity
-            .created(new URI("/api/beneficiaries/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+            .created(
+                new URI(
+                    "/api/beneficiaries/" +
+                    result.getId().getFamilyMemberId().toString() +
+                    "/" +
+                    result.getId().getAnnualDeclarationId().toString()
+                )
+            )
+            .headers(
+                HeaderUtil.createEntityCreationAlert(
+                    applicationName,
+                    true,
+                    ENTITY_NAME,
+                    result.getId().getFamilyMemberId().toString() + "," + result.getId().getAnnualDeclarationId().toString()
+                )
+            )
             .body(result);
     }
 
@@ -165,6 +179,8 @@ public class BeneficiaryResource {
         log.debug("REST request to get a page of Beneficiaries");
         Page<BeneficiaryDto_Empd> page;
         if (eagerload) {
+            log.debug("REST request to get a page of Beneficiaries With Eager Relationships");
+
             page = beneficiaryService.findAllWithEagerRelationships(pageable);
         } else {
             page = beneficiaryService.findAll(pageable);

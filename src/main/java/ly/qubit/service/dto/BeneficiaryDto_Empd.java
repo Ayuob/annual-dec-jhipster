@@ -31,6 +31,10 @@ public class BeneficiaryDto_Empd implements Serializable {
         return id;
     }
 
+    public void setId(BeneficiaryIdDto id) {
+        this.id = id;
+    }
+
     public EntitlementType getEntitlementType() {
         return entitlementType;
     }

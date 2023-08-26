@@ -16,7 +16,6 @@ import org.mapstruct.*;
 public interface BeneficiaryMapper extends EntityMapper<BeneficiaryDto_Empd, Beneficiary> {
     @Mapping(target = "familyMembers", source = "familyMembers", qualifiedByName = "familyMemberName")
     @Mapping(target = "annualDeclaration", source = "annualDeclaration", qualifiedByName = "annualDeclarationSubmissionDate")
-    @Mapping(target = "annualDeclaration", source = "annualDeclaration", qualifiedByName = "annualDeclarationSubmissionDate")
     BeneficiaryDto_Empd toDto(Beneficiary s);
 
     @Named("familyMemberName")

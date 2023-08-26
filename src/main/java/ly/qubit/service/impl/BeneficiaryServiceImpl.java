@@ -75,6 +75,8 @@ public class BeneficiaryServiceImpl implements BeneficiaryService {
     }
 
     public Page<BeneficiaryDto_Empd> findAllWithEagerRelationships(Pageable pageable) {
+        log.debug("Request to get all Beneficiaries With Eager Relationships");
+
         return beneficiaryRepository.findAllWithEagerRelationships(pageable).map(beneficiaryMapper::toDto);
     }
 
