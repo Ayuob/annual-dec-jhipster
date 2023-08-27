@@ -108,7 +108,10 @@ public class BeneficiaryResource {
         if (beneficiaryDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, beneficiaryDTO.getId())) {
+        if (
+            !Objects.equals(id.getAnnualDeclarationId(), beneficiaryDTO.getId().getAnnualDeclarationId()) &&
+            !Objects.equals(id.getFamilyMemberId(), beneficiaryDTO.getId().getFamilyMemberId())
+        ) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -210,7 +213,7 @@ public class BeneficiaryResource {
      * @param aid the id of the annual beneficiaryDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @DeleteMapping("/beneficiaries/{fid}/{aid}}")
+    @DeleteMapping("/beneficiaries/{fid}/{aid}")
     public ResponseEntity<Void> deleteBeneficiary(@PathVariable Long fid, @PathVariable Long aid) {
         log.debug("REST request to delete Beneficiary : {} and {}", fid, aid);
         beneficiaryService.delete(new BeneficiaryIdDto(fid, aid));

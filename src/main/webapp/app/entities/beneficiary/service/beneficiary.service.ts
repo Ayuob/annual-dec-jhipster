@@ -23,15 +23,25 @@ export class BeneficiaryService {
     return this.http.post<IBeneficiary>(this.resourceUrl, beneficiary, { observe: 'response' });
   }
 
+  // update(beneficiary: IBeneficiary): Observable<EntityResponseType> {
+  //   return this.http.put<IBeneficiary>(`${this.resourceUrl}/${this.getBeneficiaryUriIdentifier(beneficiary)}`, beneficiary, {
+  //     //Todo Debug getBeneficiaryIdentifier() to see how id is represented within the url
+  //     observe: 'response',
+  //   });
+  // }
   update(beneficiary: IBeneficiary): Observable<EntityResponseType> {
-    return this.http.put<IBeneficiary>(`${this.resourceUrl}/${this.getBeneficiaryIdentifier(beneficiary)}`, beneficiary, {
-      //Todo Debug getBeneficiaryIdentifier() to see how id is represented within the url
+    console.log('Beneficiary ID:', beneficiary.id); // Add this line for debugging
+    const { familyMemberId, annualDeclarationId } = beneficiary.id;
+
+    const url = `${this.resourceUrl}/${familyMemberId}/${annualDeclarationId}`;
+
+    return this.http.put<IBeneficiary>(url, beneficiary, {
       observe: 'response',
     });
   }
 
   partialUpdate(beneficiary: PartialUpdateBeneficiary): Observable<EntityResponseType> {
-    return this.http.patch<IBeneficiary>(`${this.resourceUrl}/${this.getBeneficiaryIdentifier(beneficiary)}`, beneficiary, {
+    return this.http.patch<IBeneficiary>(`${this.resourceUrl}/${this.getBeneficiaryUriIdentifier(beneficiary)}`, beneficiary, {
       observe: 'response',
     });
   }
@@ -60,6 +70,10 @@ export class BeneficiaryService {
 
   getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): BeneficiaryId {
     return beneficiary.id;
+  }
+  getBeneficiaryUriIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): string {
+    const { familyMemberId, annualDeclarationId } = beneficiary.id;
+    return familyMemberId + '/' + annualDeclarationId;
   }
   // getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'>): string {
   //   return `${beneficiary.familyMembersId}-${beneficiary.annualDeclarationId}`;

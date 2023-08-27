@@ -9,8 +9,10 @@ import ly.qubit.domain.BeneficiaryId;
  */
 public class BeneficiaryIdDto implements Serializable {
 
-    private final Long familyMemberId;
-    private final Long annualDeclarationId;
+    private Long familyMemberId;
+    private Long annualDeclarationId;
+
+    public BeneficiaryIdDto() {}
 
     public BeneficiaryIdDto(Long familyMemberId, Long annualDeclarationId) {
         this.familyMemberId = familyMemberId;
@@ -23,6 +25,14 @@ public class BeneficiaryIdDto implements Serializable {
 
     public Long getAnnualDeclarationId() {
         return annualDeclarationId;
+    }
+
+    public void setFamilyMemberId(Long familyMemberId) {
+        this.familyMemberId = familyMemberId;
+    }
+
+    public void setAnnualDeclarationId(Long annualDeclarationId) {
+        this.annualDeclarationId = annualDeclarationId;
     }
 
     @Override
