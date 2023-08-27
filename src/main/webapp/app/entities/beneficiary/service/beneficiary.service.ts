@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IBeneficiary, NewBeneficiary } from '../beneficiary.model';
+import { BeneficiaryId, IBeneficiary, NewBeneficiary } from '../beneficiary.model';
 
 export type PartialUpdateBeneficiary = Partial<IBeneficiary> & Pick<IBeneficiary, 'id'>;
 // export type PartialUpdateBeneficiary = Partial<IBeneficiary> & Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'>;
@@ -25,6 +25,7 @@ export class BeneficiaryService {
 
   update(beneficiary: IBeneficiary): Observable<EntityResponseType> {
     return this.http.put<IBeneficiary>(`${this.resourceUrl}/${this.getBeneficiaryIdentifier(beneficiary)}`, beneficiary, {
+      //Todo Debug getBeneficiaryIdentifier() to see how id is represented within the url
       observe: 'response',
     });
   }
@@ -57,10 +58,7 @@ export class BeneficiaryService {
     return this.http.delete(url, { observe: 'response' });
   }
 
-  getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): {
-    familyMemberId: number;
-    annualDeclarationId: number;
-  } {
+  getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'id'>): BeneficiaryId {
     return beneficiary.id;
   }
   // getBeneficiaryIdentifier(beneficiary: Pick<IBeneficiary, 'familyMembersId' | 'annualDeclarationId'>): string {

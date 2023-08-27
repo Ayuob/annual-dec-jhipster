@@ -68,7 +68,7 @@
       <tbody>
         <tr *ngFor="let beneficiary of beneficiaries; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/beneficiary', beneficiary.familyMembers?.id, beneficiary.annualDeclaration?.id, 'view']">{{
+            <a [routerLink]="['/beneficiary', beneficiary.id.familyMemberId, beneficiary.id.annualDeclarationId, 'view']">{{
               beneficiary.familyMembers?.id
             }}</a>
           </td>
@@ -90,7 +90,7 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/beneficiary', beneficiary.familyMembersId, beneficiary.annualDeclarationId, 'view']"
+                [routerLink]="['/beneficiary', beneficiary.id.familyMemberId, beneficiary.id.annualDeclarationId, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
@@ -100,7 +100,7 @@
 
               <button
                 type="submit"
-                [routerLink]="['/beneficiary', beneficiary.familyMembersId, beneficiary.annualDeclarationId, 'edit']"
+                [routerLink]="['/beneficiary', beneficiary.id.familyMemberId, beneficiary.id.annualDeclarationId, 'edit']"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >

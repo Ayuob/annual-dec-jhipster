@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IBeneficiary } from '../beneficiary.model';
+import { IBeneficiary, BeneficiaryId } from '../beneficiary.model';
 import { BeneficiaryService } from '../service/beneficiary.service';
 import { ITEM_DELETED_EVENT } from 'app/config/navigation.constants';
 
@@ -17,9 +17,10 @@ export class BeneficiaryDeleteDialogComponent {
     this.activeModal.dismiss();
   }
 
-  confirmDelete(familyMembersId: number, annualDeclarationId: number): void {
-    this.beneficiaryService.delete(familyMembersId, annualDeclarationId).subscribe(() => {
-      this.activeModal.close(ITEM_DELETED_EVENT);
-    });
+  confirmDelete(beneficiary: IBeneficiary): void {
+    if (beneficiary.id.familyMemberId != null && beneficiary.id.annualDeclarationId != null)
+      this.beneficiaryService.delete(beneficiary.id.familyMemberId, beneficiary.id.annualDeclarationId).subscribe(() => {
+        this.activeModal.close(ITEM_DELETED_EVENT);
+      });
   }
 }

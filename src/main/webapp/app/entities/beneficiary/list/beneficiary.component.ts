@@ -33,7 +33,8 @@ export class BeneficiaryComponent implements OnInit {
     protected modalService: NgbModal
   ) {}
 
-  trackId = (_index: number, item: IBeneficiary): string => this.beneficiaryService.getBeneficiaryIdentifier(item);
+  trackId = (_index: number, item: IBeneficiary): { familyMemberId: number; annualDeclarationId: number } =>
+    this.beneficiaryService.getBeneficiaryIdentifier(item);
 
   ngOnInit(): void {
     this.load();

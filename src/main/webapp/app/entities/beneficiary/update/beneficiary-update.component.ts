@@ -71,7 +71,7 @@ export class BeneficiaryUpdateComponent implements OnInit {
     // Get the beneficiary object from the form using beneficiaryFormService
     const beneficiary = this.beneficiaryFormService.getBeneficiary(this.editForm);
 
-    if (beneficiary.familyMembersId !== null && beneficiary.annualDeclarationId !== null) {
+    if (beneficiary.id !== null) {
       // If both familyMembersId and annualDeclarationId are not null, update the existing entity
       this.subscribeToSaveResponse(this.beneficiaryService.update(beneficiary));
     } else {
