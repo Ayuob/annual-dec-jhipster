@@ -1,11 +1,11 @@
 {
   "home": {
-    "title": "Welcome, Java Hipster!",
-    "subtitle": "This is your homepage",
+    "title": "Welcome, Social Security Fund",
+    "subtitle": "Annual Declaration App",
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },
-    "question": "If you have any question on JHipster:",
+    "question": "Social security as an important, effective and essential tool for creating social cohesion and a basic human right. It is indispensable in social policy and plays an important role in social protection. Social security through the national guarantor and fair sharing of burdens can contribute to achieving human dignity, equality and justice. Social .",
     "link": {
       "homepage": "JHipster homepage",
       "stackoverflow": "JHipster on Stack Overflow",

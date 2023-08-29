@@ -80,7 +80,7 @@ public class SocialSecurityPensionerServiceImpl implements SocialSecurityPension
         pensioner.setLastName(managedUserVM.getLastName());
         String encryptedPassword = passwordEncoder.encode(managedUserVM.getPassword());
         pensioner.setPassword(encryptedPassword);
-        pensioner.setNationalNumber(managedUserVM.getLogin());
+        pensioner.setNationalNumber("0000000000000");
         pensioner.setAddress("any");
 
         // new user is not active
