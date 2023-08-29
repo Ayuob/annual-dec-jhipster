@@ -20,6 +20,7 @@ import org.hibernate.annotations.BatchSize;
  */
 @Entity
 @Table(name = "jhi_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -192,6 +193,34 @@ public class User extends AbstractAuditingEntity<Long> implements Serializable {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    SocialSecurityPensioner getPensioner() {
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
+        pensioner.setEmail(this.getEmail());
+        pensioner.setLogin(this.getLogin());
+        pensioner.setLangKey(this.getLangKey());
+        pensioner.setFirstName(this.getFirstName());
+        pensioner.setLastName(this.getLastName());
+        pensioner.setPassword(this.getPassword());
+        //        pensioner.setPensionNumber(this.getPensionNumber());
+        //        user.setNationalNumber(managedUserVM.getNationalNumber());
+        //        user.setAddress(managedUserVM.getAddress());
+        pensioner.setAuthorities(this.getAuthorities());
+        return pensioner;
+    }
+
+    void setpensioner(SocialSecurityPensioner pensioner) {
+        this.setEmail(pensioner.getEmail());
+        this.setLogin(pensioner.getLogin());
+        this.setLangKey(pensioner.getLangKey());
+        this.setFirstName(pensioner.getFirstName());
+        this.setLastName(pensioner.getLastName());
+        this.setPassword(pensioner.getPassword());
+        //        this.setPensionNumber(pensioner.getPensionNumber());
+        //        this.setNationalNumber(pensioner.getNationalNumber());
+        //        this.setAddress(pensioner.getAddress())
+        //        this.setAuthorities(pensioner.getAuthorities());
     }
 
     @Override

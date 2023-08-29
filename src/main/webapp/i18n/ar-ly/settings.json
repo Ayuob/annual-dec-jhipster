@@ -6,6 +6,12 @@
       "firstname.placeholder": "اسمك الأول",
       "lastname": "اللقب",
       "lastname.placeholder": "لقبك",
+      "nationalNumber": "الرقم الوطني",
+      "nationalNumber.placeholder": "رقمك الوطني",
+      "pensionNumber": "الرقم الضماني",
+      "pensionNumber.placeholder": "رقمك الضماني",
+      "dateOfBirth": "تاريخ الميلاد",
+      "dateOfBirth.placeholder": "تاريخ ميلادك",
       "language": "لغة",
       "button": "حفظ"
     },
@@ -25,6 +31,19 @@
           "required": "مطلوب لقبك.",
           "minlength": "مطلوب اسم عائلتك ليكون على الأقل 1 حرف",
           "maxlength": "لا يمكن أن يكون اسم العائلة اكثر من 50 حرفا"
+        },
+        "nationalNumber": {
+          "required": "مطلوب رقمك الوطني.",
+          "minlength": "مطلوب رقمك الوطني ليكون على الأقل 12 حرف",
+          "maxlength": "لا يمكن أن يكون الرقم الوطني اكثر من 12 حرفا"
+        },
+        "pensionNumber": {
+          "required": "مطلوب رقمك الضماني.",
+          "minlength": "مطلوب رقمك الضماني ليكون على الأقل 4 حرف",
+          "maxlength": "لا يمكن أن يكون الرقم الضماني اكثر من 4 حرفا"
+        },
+        "dateOfBirth": {
+          "required": "مطلوب تاريخ ميلادك."
         }
       }
     }

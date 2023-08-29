@@ -29,6 +29,20 @@ export class SettingsComponent implements OnInit {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email],
     }),
+    nationalNumber: new FormControl(initialAccount.nationalNumber, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(12), Validators.maxLength(12)],
+    }),
+    pensionNumber: new FormControl(initialAccount.pensionNumber, {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(4), Validators.maxLength(4)],
+    }),
+    dateOfBirth: new FormControl(initialAccount.dateOfBirth, {
+      validators: [Validators.required],
+    }),
+    address: new FormControl(initialAccount.address, {
+      validators: [Validators.required],
+    }),
     langKey: new FormControl(initialAccount.langKey, { nonNullable: true }),
 
     activated: new FormControl(initialAccount.activated, { nonNullable: true }),

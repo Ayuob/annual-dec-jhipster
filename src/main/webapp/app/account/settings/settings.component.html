@@ -98,6 +98,125 @@
         </div>
 
         <div class="mb-3">
+          <label class="form-label" for="nationalNumber" jhiTranslate="settings.form.nationalNumber">الرقم الوطني</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nationalNumber"
+            name="nationalNumber"
+            placeholder="{{ 'settings.form.nationalNumber.placeholder' | translate }}"
+            formControlName="nationalNumber"
+            data-cy="nationalNumber"
+          />
+
+          <div
+            *ngIf="
+              settingsForm.get('nationalNumber')!.invalid &&
+              (settingsForm.get('nationalNumber')!.dirty || settingsForm.get('nationalNumber')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('nationalNumber')?.errors?.required"
+              jhiTranslate="settings.messages.validate.nationalNumber.required"
+            >
+              مطلوب الرقم الوطني.
+            </small>
+
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('nationalNumber')?.errors?.minlength"
+              jhiTranslate="settings.messages.validate.nationalNumber.minlength"
+            >
+              مطلوب الرقم الوطني ليكون على الأقل 12 حرف
+            </small>
+
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('nationalNumber')?.errors?.maxlength"
+              jhiTranslate="settings.messages.validate.nationalNumber.maxlength"
+            >
+              لا يمكن أن يكون الرقم الوطني اكثر من 12 حرفا
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="settings.form.pensionNumber" for="field_pensionNumber">Pension Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="pensionNumber"
+            id="field_pensionNumber"
+            data-cy="pensionNumber"
+            formControlName="pensionNumber"
+          />
+          <div
+            *ngIf="
+              settingsForm.get('pensionNumber')!.invalid &&
+              (settingsForm.get('pensionNumber')!.dirty || settingsForm.get('pensionNumber')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('pensionNumber')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.dateOfBirth" for="field_dateOfBirth"
+            >Date Of Birth</label
+          >
+          <div class="input-group">
+            <input
+              id="field_dateOfBirth"
+              data-cy="dateOfBirth"
+              type="text"
+              class="form-control"
+              name="dateOfBirth"
+              ngbDatepicker
+              #dateOfBirthDp="ngbDatepicker"
+              formControlName="dateOfBirth"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          <div
+            *ngIf="
+              settingsForm.get('dateOfBirth')!.invalid &&
+              (settingsForm.get('dateOfBirth')!.dirty || settingsForm.get('dateOfBirth')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('dateOfBirth')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="annualDecJhApp.socialSecurityPensioner.address" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+          <div *ngIf="settingsForm.get('address')!.invalid && (settingsForm.get('address')!.dirty || settingsForm.get('address')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('address')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              هذا الحقل مطلوب.
+            </small>
+          </div>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label" for="email" jhiTranslate="global.form.email.label">البريد الإلكتروني</label>
           <input
             type="email"

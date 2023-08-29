@@ -13,17 +13,15 @@ public class SocialSecurityPensionerDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
-    @Size(min = 12, max = 12)
+    // @NotNull
+    // @Size(min = 12, max = 12)
     private String nationalNumber;
 
-    @NotNull
+    //  @NotNull
     private String pensionNumber;
 
-    @NotNull
     private LocalDate dateOfBirth;
 
-    @NotNull
     private String address;
 
     public Long getId() {

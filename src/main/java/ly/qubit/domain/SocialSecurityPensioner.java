@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import ly.qubit.security.AuthoritiesConstants;
+import tech.jhipster.security.RandomUtil;
 
 /**
  * A SocialSecurityPensioner.
@@ -14,7 +16,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "social_security_pensioner")
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class SocialSecurityPensioner implements Serializable {
+public class SocialSecurityPensioner extends User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,15 +31,12 @@ public class SocialSecurityPensioner implements Serializable {
     @Column(name = "national_number", length = 12, nullable = false, unique = true)
     private String nationalNumber;
 
-    @NotNull
-    @Column(name = "pension_number", nullable = false)
+    @Column(name = "pension_number")
     private String pensionNumber;
 
-    @NotNull
-    @Column(name = "date_of_birth", nullable = false)
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @NotNull
     @Column(name = "address", nullable = false)
     private String address;
 
@@ -176,6 +175,35 @@ public class SocialSecurityPensioner implements Serializable {
         this.annualDeclarations.remove(annualDeclaration);
         annualDeclaration.setPensioner(null);
         return this;
+    }
+
+    public User getUser() {
+        User user = new User();
+        user.setEmail(this.getEmail());
+        user.setLogin(this.getLogin());
+        user.setLangKey(this.getLangKey());
+        user.setFirstName(this.getFirstName());
+        user.setLastName(this.getLastName());
+        user.setPassword(this.getPassword());
+        user.setActivationKey(this.getActivationKey());
+        //        user.setPensionNumber(managedUserVM.getPensionNumber());
+        //        user.setNationalNumber(managedUserVM.getNationalNumber());
+        //        user.setAddress(managedUserVM.getAddress());
+        user.setAuthorities(this.getAuthorities());
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.setEmail(user.getEmail());
+        this.setLogin(user.getLogin());
+        this.setLangKey(user.getLangKey());
+        this.setFirstName(user.getFirstName());
+        this.setLastName(user.getLastName());
+        this.setPassword(user.getPassword());
+        //        this.setPensionNumber(pensioner.getPensionNumber());
+        //        this.setNationalNumber(pensioner.getNationalNumber());
+        //        this.setAddress(pensioner.getAddress())
+        //        this.setAuthorities(pensioner.getAuthorities());
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

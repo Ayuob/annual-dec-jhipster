@@ -1,15 +1,23 @@
 package ly.qubit.web.rest;
 
+import java.time.LocalDate;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import ly.qubit.domain.Authority;
+import ly.qubit.domain.SocialSecurityPensioner;
 import ly.qubit.domain.User;
+import ly.qubit.repository.AuthorityRepository;
+import ly.qubit.repository.SocialSecurityPensionerRepository;
 import ly.qubit.repository.UserRepository;
+import ly.qubit.security.AuthoritiesConstants;
 import ly.qubit.security.SecurityUtils;
 import ly.qubit.service.MailService;
 import ly.qubit.service.UserService;
 import ly.qubit.service.dto.AdminUserDTO;
 import ly.qubit.service.dto.PasswordChangeDTO;
+import ly.qubit.service.dto.SocialSecurityPensionerDTO;
+import ly.qubit.service.impl.SocialSecurityPensionerServiceImpl;
 import ly.qubit.web.rest.errors.*;
 import ly.qubit.web.rest.vm.KeyAndPasswordVM;
 import ly.qubit.web.rest.vm.ManagedUserVM;
@@ -17,7 +25,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import tech.jhipster.security.RandomUtil;
 
 /**
  * REST controller for managing the current user's account.
@@ -40,11 +50,29 @@ public class AccountResource {
     private final UserService userService;
 
     private final MailService mailService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthorityRepository authorityRepository;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    private final SocialSecurityPensionerServiceImpl pensionerService;
+    private final SocialSecurityPensionerRepository pensionerRepository;
+
+    public AccountResource(
+        UserRepository userRepository,
+        UserService userService,
+        MailService mailService,
+        PasswordEncoder passwordEncoder,
+        SocialSecurityPensionerServiceImpl pensionerService,
+        SocialSecurityPensionerRepository socialSecurityPensionerRepository,
+        AuthorityRepository authorityRepository,
+        SocialSecurityPensionerRepository pensionerRepository
+    ) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
+        this.pensionerService = pensionerService;
+        this.authorityRepository = authorityRepository;
+        this.pensionerRepository = pensionerRepository;
     }
 
     /**
@@ -61,8 +89,10 @@ public class AccountResource {
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
-        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-        mailService.sendActivationEmail(user);
+        SocialSecurityPensioner PensionerUser = pensionerService.savePensioner(managedUserVM, managedUserVM.getPassword());
+        //        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        log.debug("pensioner {} has been created with id {} ", PensionerUser, PensionerUser.getId());
+        mailService.sendActivationEmail(PensionerUser.getUser());
     }
 
     /**
@@ -125,13 +155,15 @@ public class AccountResource {
         if (!user.isPresent()) {
             throw new AccountResourceException("User could not be found");
         }
-        userService.updateUser(
-            userDTO.getFirstName(),
-            userDTO.getLastName(),
-            userDTO.getEmail(),
-            userDTO.getLangKey(),
-            userDTO.getImageUrl()
-        );
+        //        userService.updateUser(
+        //            userDTO.getFirstName(),
+        //            userDTO.getLastName(),
+        //            userDTO.getEmail(),
+        //            userDTO.getLangKey(),
+        //            userDTO.getImageUrl()
+        //        );
+
+        pensionerService.updateUser(userDTO);
     }
 
     /**
