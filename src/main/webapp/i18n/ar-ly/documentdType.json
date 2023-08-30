@@ -2,12 +2,12 @@
   "annualDecJhApp": {
     "DocumentdType": {
       "null": "",
-      "IDENTITY": "Identity Document",
-      "INCOME": "Income Certificate",
-      "FAMILY": "Family Information",
-      "MEDICAL": "Medical Records",
-      "RESIDENCE": "Residence Proof",
-      "OTHER": "Other Document"
+      "IDENTITY": "مستند الهوية",
+      "INCOME": "شهادة اثبات راتب",
+      "FAMILY": "ورقة العائلة",
+      "MEDICAL": "تقرير طبي",
+      "RESIDENCE": "حالة جنائية",
+      "OTHER": "اخرى"
     }
   }
 }

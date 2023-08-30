@@ -2,27 +2,27 @@
   "annualDecJhApp": {
     "annualDeclaration": {
       "home": {
-        "title": "Annual Declarations",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Annual Declaration",
-        "createOrEditLabel": "Create or edit a Annual Declaration",
-        "notFound": "No Annual Declarations found"
+        "title": "الاقرار السنوي",
+        "refreshListLabel": "تحديث القائمة",
+        "createLabel": "إنشاء اقرار جديد",
+        "createOrEditLabel": "انشاء او تعديل اقرار سنوي",
+        "notFound": "لا يوجد بيانات"
       },
       "created": "A new Annual Declaration is created with identifier {{ param }}",
       "updated": "A Annual Declaration is updated with identifier {{ param }}",
       "deleted": "A Annual Declaration is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Annual Declaration {{ id }}?"
+        "question": "هل انت متأكد من الحذف {{ id }}?"
       },
       "detail": {
-        "title": "Annual Declaration"
+        "title": "الاقرار السنوي"
       },
       "id": "ID",
-      "submissionDate": "Submission Date",
-      "status": "Status",
-      "documents": "Documents",
-      "pensioner": "Pensioner",
-      "familyMembers": "Family Members"
+      "submissionDate": "تاريخ التقديم",
+      "status": "حالة الإقرار",
+      "documents": "المستندات",
+      "pensioner": "المضمون",
+      "familyMembers": "افراد العائلة"
     }
   }
 }

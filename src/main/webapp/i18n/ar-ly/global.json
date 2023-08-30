@@ -1,17 +1,17 @@
 {
   "global": {
-    "title": "Annual_dec_jh",
+    "title": "تطبيق الاقرار السنوي",
     "browsehappy": "أنت تستخدم متصفح <strong>قديم</strong> . من فضلك <a href=\"http://browsehappy.com/?locale=en\">قم بتحديث متصفحك</a> لتحسين تجربتك.",
     "menu": {
       "home": "الصفحة الرئيسية",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "الكيانات",
-        "socialSecurityPensioner": "Social Security Pensioner",
-        "familyMember": "Family Member",
-        "beneficiary": "Beneficiary",
-        "annualDeclaration": "Annual Declaration",
-        "document": "Document",
+        "socialSecurityPensioner": "المضمون",
+        "familyMember": "فرد العائلة",
+        "beneficiary": "الاستحقاق",
+        "annualDeclaration": "الاقرار السنوي",
+        "document": "المستندات",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

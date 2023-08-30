@@ -2,10 +2,10 @@
   "annualDecJhApp": {
     "familyMember": {
       "home": {
-        "title": "Family Members",
+        "title": "فرد العائلة",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Family Member",
-        "createOrEditLabel": "Create or edit a Family Member",
+        "createLabel": "انشاء فرد عائلة جديد",
+        "createOrEditLabel": "انشاء او تعديل فرد العائلة",
         "notFound": "No Family Members found"
       },
       "created": "A new Family Member is created with identifier {{ param }}",
@@ -15,15 +15,15 @@
         "question": "Are you sure you want to delete Family Member {{ id }}?"
       },
       "detail": {
-        "title": "Family Member"
+        "title": "فرد العائلة"
       },
       "id": "ID",
-      "nationalNumber": "National Number",
-      "name": "Name",
-      "dateOfBirth": "Date Of Birth",
-      "gender": "Gender",
-      "pensioner": "Pensioner",
-      "annualDeclaration": "Annual Declaration"
+      "nationalNumber": "الرقم الوطني",
+      "name": "الاسم",
+      "dateOfBirth": "تاريخ الميلاد",
+      "gender": "الجنس",
+      "pensioner": "المضمون",
+      "annualDeclaration": "الاقرار السنوي"
     }
   }
 }

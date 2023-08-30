@@ -2,11 +2,11 @@
   "annualDecJhApp": {
     "beneficiary": {
       "home": {
-        "title": "Beneficiaries",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Beneficiary",
-        "createOrEditLabel": "Create or edit a Beneficiary",
-        "notFound": "No Beneficiaries found"
+        "title": "المستحقين",
+        "refreshListLabel": "تحديث القائمة",
+        "createLabel": "انشاء مستحق جديد",
+        "createOrEditLabel": "انشاء او تعديل مستحق",
+        "notFound": "لا يوجد مستحقين"
       },
       "created": "A new Beneficiary is created with identifier {{ param }}",
       "updated": "A Beneficiary is updated with identifier {{ param }}",
@@ -15,13 +15,13 @@
         "question": "Are you sure you want to delete Beneficiary {{ id }}?"
       },
       "detail": {
-        "title": "Beneficiary"
+        "title": "مستحق"
       },
       "id": "ID",
-      "entitlementType": "Entitlement Type",
-      "entitlementDetails": "Entitlement Details",
-      "familyMembers": "Family Members",
-      "annualDeclaration": "Annual Declaration"
+      "entitlementType": "نوع الاستحقاق",
+      "entitlementDetails": "تفاصيل الاستحقاق",
+      "familyMembers": "فرد العائلة",
+      "annualDeclaration": "الاقرار السنوي"
     }
   }
 }

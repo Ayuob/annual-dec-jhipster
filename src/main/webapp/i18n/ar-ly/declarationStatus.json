@@ -2,9 +2,9 @@
   "annualDecJhApp": {
     "DeclarationStatus": {
       "null": "",
-      "SUBMITTED": "Submitted",
-      "APPROVED": "Approved",
-      "REJECTED": "Rejected"
+      "SUBMITTED": "تم التقديم",
+      "APPROVED": "مقبول",
+      "REJECTED": "مرفوض"
     }
   }
 }
