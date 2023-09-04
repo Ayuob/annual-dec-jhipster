@@ -43,31 +43,31 @@
             <small
               class="form-text text-danger"
               *ngIf="registerForm.get('login')?.errors?.required"
-              jhiTranslate="register.messages.validate.login.required"
+              jhiTranslate="settings.messages.validate.nationalNumber.required"
             >
-              اسم المستخدم الخاصة بك مطلوب.
+              مطلوب الرقم الوطني.
             </small>
 
             <small
               class="form-text text-danger"
               *ngIf="registerForm.get('login')?.errors?.minlength"
-              jhiTranslate="register.messages.validate.login.minlength"
+              jhiTranslate="settings.messages.validate.nationalNumber.minlength"
             >
-              اسم المستخدم الخاصة بك مطلوب ليكون على الأقل 1 حرف.
+              مطلوب الرقم الوطني ليكون على الأقل 12 حرف
             </small>
 
             <small
               class="form-text text-danger"
               *ngIf="registerForm.get('login')?.errors?.maxlength"
-              jhiTranslate="register.messages.validate.login.maxlength"
+              jhiTranslate="settings.messages.validate.nationalNumber.maxlength"
             >
-              اسم المستخدم الخاصة بك لا يمكن أن يكون أطول من 50 حرفا.
+              لا يمكن أن يكون الرقم الوطني اكثر من 12 حرفا
             </small>
 
             <small
               class="form-text text-danger"
               *ngIf="registerForm.get('login')?.errors?.pattern"
-              jhiTranslate="register.messages.validate.login.pattern"
+              jhiTranslate="register.messages.validate.nationalNumber.pattern"
             >
               Your username is invalid.
             </small>

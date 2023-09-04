@@ -31,7 +31,7 @@ export class SettingsComponent implements OnInit {
     }),
     nationalNumber: new FormControl(initialAccount.nationalNumber, {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(12), Validators.maxLength(12)],
+      validators: [Validators.required, Validators.pattern(/^[1-2]\d{11}$/), Validators.minLength(12), Validators.maxLength(12)],
     }),
     pensionNumber: new FormControl(initialAccount.pensionNumber, {
       nonNullable: true,
