@@ -194,6 +194,7 @@ public class SocialSecurityPensioner extends User implements Serializable {
     }
 
     public void setUser(User user) {
+        this.setId(user.getId());
         this.setEmail(user.getEmail());
         this.setLogin(user.getLogin());
         this.setLangKey(user.getLangKey());

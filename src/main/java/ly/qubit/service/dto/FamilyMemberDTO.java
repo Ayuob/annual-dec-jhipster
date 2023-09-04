@@ -23,7 +23,6 @@ public class FamilyMemberDTO implements Serializable {
     @NotNull
     private LocalDate dateOfBirth;
 
-    @NotNull
     private String gender;
 
     private SocialSecurityPensionerDTO pensioner;

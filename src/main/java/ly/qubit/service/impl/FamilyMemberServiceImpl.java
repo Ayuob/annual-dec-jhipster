@@ -2,8 +2,13 @@ package ly.qubit.service.impl;
 
 import java.util.Optional;
 import ly.qubit.domain.FamilyMember;
+import ly.qubit.domain.SocialSecurityPensioner;
+import ly.qubit.domain.User;
 import ly.qubit.repository.FamilyMemberRepository;
+import ly.qubit.security.AuthoritiesConstants;
+import ly.qubit.security.SecurityUtils;
 import ly.qubit.service.FamilyMemberService;
+import ly.qubit.service.UserService;
 import ly.qubit.service.dto.FamilyMemberDTO;
 import ly.qubit.service.mapper.FamilyMemberMapper;
 import org.slf4j.Logger;
@@ -23,18 +28,38 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
     private final Logger log = LoggerFactory.getLogger(FamilyMemberServiceImpl.class);
 
     private final FamilyMemberRepository familyMemberRepository;
+    private final UserService userService;
 
     private final FamilyMemberMapper familyMemberMapper;
 
-    public FamilyMemberServiceImpl(FamilyMemberRepository familyMemberRepository, FamilyMemberMapper familyMemberMapper) {
+    public FamilyMemberServiceImpl(
+        FamilyMemberRepository familyMemberRepository,
+        UserService userService,
+        FamilyMemberMapper familyMemberMapper
+    ) {
         this.familyMemberRepository = familyMemberRepository;
+        this.userService = userService;
         this.familyMemberMapper = familyMemberMapper;
     }
 
     @Override
     public FamilyMemberDTO save(FamilyMemberDTO familyMemberDTO) {
-        log.debug("Request to save FamilyMember : {}", familyMemberDTO);
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
         FamilyMember familyMember = familyMemberMapper.toEntity(familyMemberDTO);
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            pensioner.setUser(userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get());
+            familyMember.setPensioner(pensioner);
+        }
+        log.debug("Request to save FamilyMember : {}", familyMemberDTO);
+
+        if (familyMemberDTO.getNationalNumber().startsWith("1")) {
+            familyMember.setGender("male");
+        } else if (familyMemberDTO.getNationalNumber().startsWith("2")) {
+            familyMember.setGender("female");
+        }
+        //todo remove Gender from Ui and apply SSN validation to Family Members
         familyMember = familyMemberRepository.save(familyMember);
         return familyMemberMapper.toDto(familyMember);
     }
@@ -42,7 +67,14 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
     @Override
     public FamilyMemberDTO update(FamilyMemberDTO familyMemberDTO) {
         log.debug("Request to update FamilyMember : {}", familyMemberDTO);
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
         FamilyMember familyMember = familyMemberMapper.toEntity(familyMemberDTO);
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            pensioner.setUser(userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get());
+            familyMember.setPensioner(pensioner);
+        }
         familyMember = familyMemberRepository.save(familyMember);
         return familyMemberMapper.toDto(familyMember);
     }

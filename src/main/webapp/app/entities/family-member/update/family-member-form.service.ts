@@ -53,7 +53,7 @@ export class FamilyMemberFormService {
         validators: [Validators.required],
       }),
       gender: new FormControl(familyMemberRawValue.gender, {
-        validators: [Validators.required],
+        validators: [],
       }),
       pensioner: new FormControl(familyMemberRawValue.pensioner),
       annualDeclarations: new FormControl(familyMemberRawValue.annualDeclarations ?? []),
