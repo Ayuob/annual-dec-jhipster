@@ -138,6 +138,13 @@
             >
               لا يمكن أن يكون الرقم الوطني اكثر من 12 حرفا
             </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="settingsForm.get('nationalNumber')?.errors?.pattern"
+              jhiTranslate="settings.messages.validate.nationalNumber.pattern"
+            >
+              Your username is invalid.
+            </small>
           </div>
         </div>
 

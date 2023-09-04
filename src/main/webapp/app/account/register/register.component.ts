@@ -25,9 +25,10 @@ export class RegisterComponent implements AfterViewInit {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(1),
-        Validators.maxLength(50),
-        Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
+        Validators.minLength(12),
+        Validators.maxLength(12),
+        // Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
+        Validators.pattern(/^[1-2]\d{11}$/),
       ],
     }),
     email: new FormControl('', {
