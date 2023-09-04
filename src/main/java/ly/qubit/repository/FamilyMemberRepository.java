@@ -32,6 +32,12 @@ public interface FamilyMemberRepository extends JpaRepository<FamilyMember, Long
     )
     Page<FamilyMember> findAllWithToOneRelationships(Pageable pageable);
 
+    @Query(
+        value = "select distinct familyMember from FamilyMember familyMember left join fetch familyMember.pensioner pensioner where familyMember.pensioner.id =:pensionerId",
+        countQuery = "select count(distinct familyMember) from FamilyMember familyMember where familyMember.pensioner.id =:pensionerId"
+    )
+    Page<FamilyMember> findAllWithToOneRelationshipsWithPensioner(Pageable pageable, @Param("pensionerId") Long pensionerId);
+
     @Query("select distinct familyMember from FamilyMember familyMember left join fetch familyMember.pensioner")
     List<FamilyMember> findAllWithToOneRelationships();
 

@@ -98,10 +98,29 @@ public class FamilyMemberServiceImpl implements FamilyMemberService {
     @Transactional(readOnly = true)
     public Page<FamilyMemberDTO> findAll(Pageable pageable) {
         log.debug("Request to get all FamilyMembers");
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            pensioner.setUser(userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get());
+            return familyMemberRepository
+                .findAllWithToOneRelationshipsWithPensioner(pageable, pensioner.getId())
+                .map(familyMemberMapper::toDto);
+        }
         return familyMemberRepository.findAll(pageable).map(familyMemberMapper::toDto);
     }
 
     public Page<FamilyMemberDTO> findAllWithEagerRelationships(Pageable pageable) {
+        log.debug("Request to get all FamilyMembers");
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            pensioner.setUser(userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin().get()).get());
+            return familyMemberRepository
+                .findAllWithToOneRelationshipsWithPensioner(pageable, pensioner.getId())
+                .map(familyMemberMapper::toDto);
+        }
         return familyMemberRepository.findAllWithEagerRelationships(pageable).map(familyMemberMapper::toDto);
     }
 
