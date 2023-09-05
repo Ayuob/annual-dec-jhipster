@@ -85,10 +85,28 @@ public class AnnualDeclarationServiceImpl implements AnnualDeclarationService {
     @Transactional(readOnly = true)
     public Page<AnnualDeclarationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all AnnualDeclarations");
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            String currentUserLogin = SecurityUtils.getCurrentUserLogin().get();
+
+            return annualDeclarationRepository.findAllByPensionerLogin(pageable, currentUserLogin).map(annualDeclarationMapper::toDto);
+        }
         return annualDeclarationRepository.findAll(pageable).map(annualDeclarationMapper::toDto);
     }
 
     public Page<AnnualDeclarationDTO> findAllWithEagerRelationships(Pageable pageable) {
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+
+            //            return annualDeclarationRepository.findAllByLoginWithToOneRelationships(pageable,SecurityUtils.getCurrentUserLogin().get() ).map(annualDeclarationMapper::toDto);
+            return annualDeclarationRepository
+                .findAllByPensionerWithToOneRelationships(
+                    pageable,
+                    pensionerRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get()
+                )
+                .map(annualDeclarationMapper::toDto);
+        }
         return annualDeclarationRepository.findAllWithEagerRelationships(pageable).map(annualDeclarationMapper::toDto);
     }
 
