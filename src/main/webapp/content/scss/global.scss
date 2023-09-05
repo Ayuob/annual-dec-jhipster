@@ -198,6 +198,23 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
   -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
+/* ==========================================================================
+Annual Declaration Status Style
+========================================================================== */
+.rejected-box {
+  background-color: red;
+  /* Add any other CSS styles for the "rejected" status here */
+}
+
+.approved-box {
+  background-color: green;
+  /* Add any other CSS styles for the "approved" status here */
+}
+
+.submitted-box {
+  background-color: blue;
+  /* Add any other CSS styles for the "submitted" status here */
+}
 
 /* navbar.component.scss */
 .navbar {

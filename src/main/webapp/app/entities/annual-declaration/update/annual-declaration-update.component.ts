@@ -63,7 +63,7 @@ export class AnnualDeclarationUpdateComponent implements OnInit {
     this.isSaving = true;
     const annualDeclaration = this.annualDeclarationFormService.getAnnualDeclaration(this.editForm);
     annualDeclaration.submissionDate = dayjs(new Date());
-    annualDeclaration.status = DeclarationStatus.SUBMITTED;
+    // annualDeclaration.status = DeclarationStatus.SUBMITTED;
     if (annualDeclaration.id !== null) {
       this.subscribeToSaveResponse(this.annualDeclarationService.update(annualDeclaration));
     } else {

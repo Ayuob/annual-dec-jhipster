@@ -22,7 +22,18 @@
         </dd>
         <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.status">Status</span></dt>
         <dd>
-          <span jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}">{{ annualDeclaration.status }}</span>
+          <!--          <span  [class.rejected-box]="annualDeclaration.status==='SUBMITTED'"-->
+          <!--                > {{ annualDeclaration.status }}</span>-->
+          <span
+            [class.rejected-box]="annualDeclaration.status === 'REJECTED'"
+            [class.approved-box]="annualDeclaration.status === 'APPROVED'"
+            [class.submitted-box]="annualDeclaration.status === 'SUBMITTED'"
+            jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}"
+          >
+            {{ annualDeclaration.status }}</span
+          >
+
+          <!--          <span [ngClass]="{'rejected-box': true}"> {{ annualDeclaration.status }}</span>-->
         </dd>
         <dt><span jhiTranslate="annualDecJhApp.annualDeclaration.pensioner">Pensioner</span></dt>
         <dd>

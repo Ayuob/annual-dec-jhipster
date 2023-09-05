@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { IAnnualDeclaration } from '../annual-declaration.model';
+import { DeclarationStatus } from '../../enumerations/declaration-status.model';
 
 @Component({
   selector: 'jhi-annual-declaration-detail',

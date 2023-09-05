@@ -65,7 +65,16 @@
             <a [routerLink]="['/annual-declaration', annualDeclaration.id, 'view']">{{ annualDeclaration.id }}</a>
           </td>
           <td>{{ annualDeclaration.submissionDate | formatMediumDate }}</td>
-          <td jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}">{{ annualDeclaration.status }}</td>
+          <td>
+            <span
+              jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}"
+              [class.rejected-box]="annualDeclaration.status === 'REJECTED'"
+              [class.approved-box]="annualDeclaration.status === 'APPROVED'"
+              [class.submitted-box]="annualDeclaration.status === 'SUBMITTED'"
+            >
+              {{ annualDeclaration.status }}
+            </span>
+          </td>
           <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div *ngIf="annualDeclaration.pensioner">
               <a [routerLink]="['/social-security-pensioner', annualDeclaration.pensioner.id, 'view']">{{
