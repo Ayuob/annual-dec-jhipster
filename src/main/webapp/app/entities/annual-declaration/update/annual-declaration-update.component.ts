@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { AnnualDeclarationFormService, AnnualDeclarationFormGroup } from './annual-declaration-form.service';
+import { AnnualDeclarationFormGroup, AnnualDeclarationFormService } from './annual-declaration-form.service';
 import { IAnnualDeclaration } from '../annual-declaration.model';
 import { AnnualDeclarationService } from '../service/annual-declaration.service';
 import { ISocialSecurityPensioner } from 'app/entities/social-security-pensioner/social-security-pensioner.model';
@@ -12,6 +12,9 @@ import { SocialSecurityPensionerService } from 'app/entities/social-security-pen
 import { IFamilyMember } from 'app/entities/family-member/family-member.model';
 import { FamilyMemberService } from 'app/entities/family-member/service/family-member.service';
 import { DeclarationStatus } from 'app/entities/enumerations/declaration-status.model';
+import dayjs from 'dayjs/esm';
+import { translate } from '@angular/localize/tools';
+import { TranslatePipe } from '@ngx-translate/core/lib/translate.pipe';
 
 @Component({
   selector: 'jhi-annual-declaration-update',
@@ -59,6 +62,8 @@ export class AnnualDeclarationUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const annualDeclaration = this.annualDeclarationFormService.getAnnualDeclaration(this.editForm);
+    annualDeclaration.submissionDate = dayjs(new Date());
+    annualDeclaration.status = DeclarationStatus.SUBMITTED;
     if (annualDeclaration.id !== null) {
       this.subscribeToSaveResponse(this.annualDeclarationService.update(annualDeclaration));
     } else {

@@ -50,7 +50,7 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="pensioner.nationalNumber">
+          <th scope="col" jhiSortBy="pensioner.nationalNumber" *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div class="d-flex">
               <span jhiTranslate="annualDecJhApp.annualDeclaration.pensioner">Pensioner</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
@@ -66,7 +66,7 @@
           </td>
           <td>{{ annualDeclaration.submissionDate | formatMediumDate }}</td>
           <td jhiTranslate="{{ 'annualDecJhApp.DeclarationStatus.' + annualDeclaration.status }}">{{ annualDeclaration.status }}</td>
-          <td>
+          <td *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <div *ngIf="annualDeclaration.pensioner">
               <a [routerLink]="['/social-security-pensioner', annualDeclaration.pensioner.id, 'view']">{{
                 annualDeclaration.pensioner.nationalNumber

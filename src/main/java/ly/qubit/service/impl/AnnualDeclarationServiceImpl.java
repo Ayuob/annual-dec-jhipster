@@ -2,7 +2,11 @@ package ly.qubit.service.impl;
 
 import java.util.Optional;
 import ly.qubit.domain.AnnualDeclaration;
+import ly.qubit.domain.SocialSecurityPensioner;
 import ly.qubit.repository.AnnualDeclarationRepository;
+import ly.qubit.repository.SocialSecurityPensionerRepository;
+import ly.qubit.security.AuthoritiesConstants;
+import ly.qubit.security.SecurityUtils;
 import ly.qubit.service.AnnualDeclarationService;
 import ly.qubit.service.dto.AnnualDeclarationDTO;
 import ly.qubit.service.mapper.AnnualDeclarationMapper;
@@ -25,19 +29,31 @@ public class AnnualDeclarationServiceImpl implements AnnualDeclarationService {
     private final AnnualDeclarationRepository annualDeclarationRepository;
 
     private final AnnualDeclarationMapper annualDeclarationMapper;
+    private final SocialSecurityPensionerRepository pensionerRepository;
 
     public AnnualDeclarationServiceImpl(
         AnnualDeclarationRepository annualDeclarationRepository,
-        AnnualDeclarationMapper annualDeclarationMapper
+        AnnualDeclarationMapper annualDeclarationMapper,
+        SocialSecurityPensionerServiceImpl pensionerService,
+        SocialSecurityPensionerRepository pensionerRepository
     ) {
         this.annualDeclarationRepository = annualDeclarationRepository;
         this.annualDeclarationMapper = annualDeclarationMapper;
+        this.pensionerRepository = pensionerRepository;
     }
 
     @Override
     public AnnualDeclarationDTO save(AnnualDeclarationDTO annualDeclarationDTO) {
         log.debug("Request to save AnnualDeclaration : {}", annualDeclarationDTO);
+        SocialSecurityPensioner pensioner = new SocialSecurityPensioner();
         AnnualDeclaration annualDeclaration = annualDeclarationMapper.toEntity(annualDeclarationDTO);
+
+        if (!SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ADMIN)) {
+            log.debug("No user passed in, using current user: {}", SecurityUtils.getCurrentUserLogin());
+            annualDeclaration.setPensioner(pensionerRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin().get()).get());
+
+            annualDeclaration = annualDeclarationRepository.save(annualDeclaration);
+        }
         annualDeclaration = annualDeclarationRepository.save(annualDeclaration);
         return annualDeclarationMapper.toDto(annualDeclaration);
     }

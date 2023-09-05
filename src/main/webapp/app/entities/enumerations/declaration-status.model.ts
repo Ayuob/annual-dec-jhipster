@@ -1,7 +1,7 @@
 export enum DeclarationStatus {
-  SUBMITTED = 'Submitted',
+  SUBMITTED = 'SUBMITTED',
 
-  APPROVED = 'Approved',
+  APPROVED = 'APPROVED',
 
-  REJECTED = 'Rejected',
+  REJECTED = 'REJECTED',
 }

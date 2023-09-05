@@ -42,10 +42,10 @@ export class AnnualDeclarationFormService {
         }
       ),
       submissionDate: new FormControl(annualDeclarationRawValue.submissionDate, {
-        validators: [Validators.required],
+        validators: [],
       }),
       status: new FormControl(annualDeclarationRawValue.status, {
-        validators: [Validators.required],
+        validators: [],
       }),
       pensioner: new FormControl(annualDeclarationRawValue.pensioner),
       familyMembers: new FormControl(annualDeclarationRawValue.familyMembers ?? []),
