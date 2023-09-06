@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-annual-declaration"
         [routerLink]="['/annual-declaration/new']"
+        *ngIf="!isLastADCurrentYear()"
       >
         <fa-icon icon="plus"></fa-icon>
         <span jhiTranslate="annualDecJhApp.annualDeclaration.home.createLabel"> Create a new Annual Declaration </span>

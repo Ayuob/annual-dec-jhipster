@@ -10,6 +10,9 @@ import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/co
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, AnnualDeclarationService } from '../service/annual-declaration.service';
 import { AnnualDeclarationDeleteDialogComponent } from '../delete/annual-declaration-delete-dialog.component';
+import { Dayjs } from 'dayjs';
+import { HasAnyAuthorityDirective } from '../../../shared/auth/has-any-authority.directive';
+import { AccountService } from '../../../core/auth/account.service';
 
 @Component({
   selector: 'jhi-annual-declaration',
@@ -30,7 +33,8 @@ export class AnnualDeclarationComponent implements OnInit {
     protected annualDeclarationService: AnnualDeclarationService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected account: AccountService
   ) {}
 
   trackId = (_index: number, item: IAnnualDeclaration): number => this.annualDeclarationService.getAnnualDeclarationIdentifier(item);
@@ -132,5 +136,33 @@ export class AnnualDeclarationComponent implements OnInit {
     } else {
       return [predicate + ',' + ascendingQueryParam];
     }
+  }
+  protected findNewestAnnualDeclaration(): IAnnualDeclaration | undefined {
+    if (!this.annualDeclarations || this.annualDeclarations.length === 0) {
+      return undefined;
+    }
+
+    // Sort the annualDeclarations by submissionDate in descending order
+    const sortedDeclarations = this.annualDeclarations.slice().sort((a, b) => {
+      const dateA = new Date(a.submissionDate?.toDate() || 0).getTime();
+      const dateB = new Date(b.submissionDate?.toDate() || 0).getTime();
+      return dateB - dateA; // Sort in descending order
+    });
+
+    // The first item in the sorted array is the newest declaration
+    console.log(sortedDeclarations[0]);
+    return sortedDeclarations[0];
+  }
+
+  protected isLastADCurrentYear(): boolean {
+    const currentYear = new Date().getFullYear();
+    const lastAnnualDeclaration = this.findNewestAnnualDeclaration();
+
+    if (lastAnnualDeclaration && lastAnnualDeclaration.submissionDate && !this.account.hasAnyAuthority('ROLE_ADMIN')) {
+      const submissionYear = lastAnnualDeclaration.submissionDate.year();
+      console.log(submissionYear + ' ' + currentYear);
+      return submissionYear === currentYear;
+    }
+    return false;
   }
 }
